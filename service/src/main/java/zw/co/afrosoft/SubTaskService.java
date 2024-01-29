@@ -6,4 +6,5 @@ import zw.co.afrosoft.model.SubTask;
 @Service
 public interface SubTaskService {
     SubTask createSubTask(SubTaskRequest subTaskRequest);
+    SubTask completeSubTask(Integer subTaskID);
 }
