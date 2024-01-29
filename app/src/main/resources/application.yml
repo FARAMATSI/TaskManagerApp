@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://192.168.10.187;instance=;DatabaseName=Leave;trustServerCertificate=true;
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: "%$Afro123"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
