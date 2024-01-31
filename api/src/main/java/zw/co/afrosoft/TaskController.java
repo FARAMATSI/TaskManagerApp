@@ -55,9 +55,4 @@ public class TaskController {
     public ResponseEntity<Response> deleteTask(@Valid @PathVariable("taskID") Integer taskID){
         return taskService.deleteTaskByID(taskID);
     }
-
-    @GetMapping("task/calculateCompletionLeve/{taskID}")
-    public ResponseEntity<Response> calculateCompletionLevel(@PathVariable Integer taskID){
-        return taskService.calculateTaskCompletionLevel(taskID);
-    }
 }

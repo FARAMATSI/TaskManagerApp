@@ -9,14 +9,13 @@ import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.model.SubTask;
 
 @RestController
+@RequestMapping("")
 public class SubTaskController {
 
     private  final SubTaskService subTaskService;
-    private final SubTaskRepository subTaskRepository;
 
-    public SubTaskController(SubTaskService subTaskService, SubTaskRepository subTaskRepository) {
+    public SubTaskController(SubTaskService subTaskService) {
         this.subTaskService = subTaskService;
-        this.subTaskRepository = subTaskRepository;
     }
 
     @PostMapping("/createSubTask")
@@ -27,5 +26,9 @@ public class SubTaskController {
     @PutMapping("/completeSubtask/{subTaskID}")
     public ResponseEntity<Response> completeSubTask(@PathVariable("subTaskID") Integer subTaskID){
             return subTaskService.completeSubTask(subTaskID);
+    }
+    @DeleteMapping("/deleteSubTask/{subTaskID}")
+    public ResponseEntity<Response> deleteSubTask(@PathVariable("subTaskID") Integer subTaskID){
+            return subTaskService.deleteSubTask(subTaskID);
     }
 }

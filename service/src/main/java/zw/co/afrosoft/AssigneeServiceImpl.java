@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import zw.co.afrosoft.Requests.AssigneeRequest;
 import zw.co.afrosoft.Responses.AssigneeResponse;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.exceptions.RecordNotFoundExeption;
+import zw.co.afrosoft.exceptions.RecordNotFoundException;
 import zw.co.afrosoft.model.Assignee;
 
 import java.util.List;
@@ -34,13 +34,14 @@ public class AssigneeServiceImpl implements AssigneeService {
             return ResponseEntity.ok(new Response("failed!!!","failed to create assignee {"+e+"}"));
         }
     }
-//    @Override
-//    public ResponseEntity<AssigneeResponse> getAssignee(Integer assigneeID){
-//        Optional<Assignee> existingAssignee = assigneeRepository.getAssigneeByAssigneeID(assigneeID);
+
+//    public ResponseEntity<AssigneeResponse> findAssigneeByName(String assigneeName){
+//        Optional<Assignee> existingAssignee = assigneeRepository.findAssigneeByName(assigneeName);
 //        if(existingAssignee.isEmpty()){
-//            throw new RecordNotFoundExeption("Assignee not found in the database");
+//            throw new RecordNotFoundException("Assignee not found in the database");
 //        }
-//            return ResponseEntity.ok(new AssigneeResponse(existingAssignee.get().getName(),taskRepository.getTaskByAssigneeID(assigneeID)));
+//        AssigneeResponse
+//        return ResponseEntity.ok(new AssigneeResponse(existingAssignee.get()));
 //    }
     @Override
     public List<Assignee> getAllAssignees(){
@@ -50,7 +51,7 @@ public class AssigneeServiceImpl implements AssigneeService {
     public ResponseEntity<Response> deleteAssignee(Integer assigneeID){
         Optional<Assignee> existingAssignee = assigneeRepository.findById(assigneeID);
         if(existingAssignee.isEmpty()){
-            throw new RecordNotFoundExeption("Assignee not found in the database");
+            throw new RecordNotFoundException("Assignee not found in the database");
         }
         assigneeRepository.deleteAssigneeByAssigneeID(assigneeID);
         return ResponseEntity.ok(new Response("success","assignee deletion successful"));

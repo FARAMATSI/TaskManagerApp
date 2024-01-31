@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://192.168.10.187;instance=;DatabaseName=Leave;trustServerCertificate=true;
+    url: jdbc:sqlserver://192.168.10.187;instance=;DatabaseName=TaskManagerApp;trustServerCertificate=true;
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     username: sa
     password: "%$Afro123"

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface AssigneeRepository  extends JpaRepository<Assignee,Integer> {
-    Optional<Assignee> getAssigneeByAssigneeID(Integer assigneeID);
+    Optional<Assignee> findAssigneeByName(String assigneeName);
     Optional<Assignee> deleteAssigneeByAssigneeID(Integer assigneeID);
 }

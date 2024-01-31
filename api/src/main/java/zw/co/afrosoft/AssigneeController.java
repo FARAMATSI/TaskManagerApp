@@ -47,4 +47,8 @@ public class AssigneeController {
     public ResponseEntity<TasksResponse> getTaskByAssigneeName(@PathVariable("name") String name){
         return taskService.getTaskByAssigneeName(name);
     }
+    @DeleteMapping("/deleteAssignee/{assigneeID}")
+    public ResponseEntity<Response> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID){
+        return assigneeService.deleteAssignee(assigneeID);
+    }
 }

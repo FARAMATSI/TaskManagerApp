@@ -17,7 +17,7 @@ import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.TaskResponse;
 import zw.co.afrosoft.Responses.TasksResponse;
 import zw.co.afrosoft.exceptions.DivisionByZero;
-import zw.co.afrosoft.exceptions.RecordNotFoundExeption;
+import zw.co.afrosoft.exceptions.RecordNotFoundException;
 import zw.co.afrosoft.model.Assignee;
 import zw.co.afrosoft.model.SubTask;
 import zw.co.afrosoft.model.Task;
@@ -33,7 +33,7 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
  private final TaskRepository taskRepository;
  private final SubTaskRepository subTaskRepository;
-    private final AssigneeRepository assigneeRepository;
+ private final AssigneeRepository assigneeRepository;
 
     public ResponseEntity<Response> createTask(TaskRequest taskRequest){
      try {
@@ -59,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<Response> updateTaskDescription(Integer taskID, LocalDate taskDeadline) {
             Optional<Task> existingTask = taskRepository.findById(taskID);
             if(existingTask.isEmpty()){
-                throw new RecordNotFoundExeption("Task Not found in the Database");
+                throw new RecordNotFoundException("Task Not found in the Database");
             }
             existingTask.get().setTaskDeadline(taskDeadline);
             taskRepository.save(existingTask.get());
@@ -70,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<TaskResponse> getTaskByID(Integer taskId) {
      Optional<Task> existingTask = taskRepository.findById(taskId);
                 if(existingTask.isEmpty()){
-                    throw new RecordNotFoundExeption("Record not Found in the Database");
+                    throw new RecordNotFoundException("Record not Found in the Database");
                 }
         List<SubTask> subTasks = subTaskRepository.findByTaskId(taskId);
 
@@ -83,7 +83,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<TasksResponse> getTaskByAssigneeName(String name){
         List<Task> allTasks =  taskRepository.getTasksByAssignee_Name(name);
         if(allTasks.isEmpty()){
-            throw new RecordNotFoundExeption("No tasks to Display");
+            throw new RecordNotFoundException("No tasks to Display");
         }
         TasksResponse tasksResponse = TasksResponse.builder()
                 .status("success")
@@ -106,6 +106,11 @@ public class TaskServiceImpl implements TaskService {
      totalSubTasks = subtasksList.size();
      try {
          completionLevel = (completedTasks / totalSubTasks) * 100;
+         Optional<Task> task = taskRepository.findById(taskID);
+         if(task.isEmpty()){
+             throw new RecordNotFoundException("Task Not found in the Database");
+         }
+         task.get().setTaskCompletionLevel(completionLevel);
          return ResponseEntity.ok(new Response("success", completionLevel + "% Complete"));
      }
      catch (ArithmeticException e){
@@ -117,7 +122,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<TasksResponse> getAllTasks(){
             List<Task> allTasks =  taskRepository.findAll();
             if(allTasks.isEmpty()){
-                throw new RecordNotFoundExeption("No tasks to Display");
+                throw new RecordNotFoundException("No tasks to Display");
             }
             return ResponseEntity.ok(new TasksResponse("all tasks",allTasks));
     }
@@ -130,7 +135,7 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> existingTask = taskRepository.findById(taskID);
 
         if(existingTask.isEmpty()){
-            throw new RecordNotFoundExeption("Task not found in the database");
+            throw new RecordNotFoundException("Task not found in the database");
         }
             // Deleting all the Task's SubTasks
             subTaskRepository.deleteByTaskId(taskID);

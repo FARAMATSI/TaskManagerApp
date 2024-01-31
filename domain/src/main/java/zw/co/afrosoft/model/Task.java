@@ -1,6 +1,7 @@
 package zw.co.afrosoft.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import zw.co.afrosoft.model.Assignee;
@@ -38,6 +39,7 @@ public class Task {
     private Double taskCompletionLevel;
 
     @Column(name = "deadline")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate taskDeadline;
 
 }

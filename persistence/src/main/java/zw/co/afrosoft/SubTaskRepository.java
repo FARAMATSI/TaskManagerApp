@@ -8,8 +8,6 @@ import java.util.List;
 
 @Repository
 public interface SubTaskRepository extends JpaRepository<SubTask,Integer> {
-
-
     List<SubTask> findByTaskId(Integer taskId);
-    List<SubTask> deleteByTaskId(Integer taskID);
+   void deleteByTaskId(Integer taskID);
 }

@@ -9,4 +9,5 @@ import zw.co.afrosoft.model.SubTask;
 public interface SubTaskService {
    ResponseEntity<Response> createSubTask(SubTaskRequest subTaskRequest);
     ResponseEntity<Response> completeSubTask(Integer subTaskID);
+    ResponseEntity<Response> deleteSubTask(Integer subTaskID);
 }
