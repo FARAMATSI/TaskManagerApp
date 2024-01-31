@@ -9,6 +9,7 @@ import org.springframework.data.relational.core.sql.In;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name = "subTasks")
 @Builder
 public class SubTask {

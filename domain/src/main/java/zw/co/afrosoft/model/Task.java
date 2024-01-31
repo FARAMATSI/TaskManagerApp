@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
+@ToString
 @Table(name = "Tasks")
 public class Task {
     @Id

@@ -19,15 +19,13 @@ public class SubTaskController {
         this.subTaskRepository = subTaskRepository;
     }
 
-    @PostMapping("/createSubTasks")
+    @PostMapping("/createSubTask")
     public ResponseEntity<Response> createSubTask(@Valid @RequestBody SubTaskRequest subTaskRequest){
-            SubTask subTask = subTaskService.createSubTask(subTaskRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new Response("success","subTask creation successful"));
+            return subTaskService.createSubTask(subTaskRequest);
     }
-
+    
     @PutMapping("/completeSubtask/{subTaskID}")
     public ResponseEntity<Response> completeSubTask(@PathVariable("subTaskID") Integer subTaskID){
-        subTaskService.completeSubTask(subTaskID);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response("success","subTask Completed"));
-        }
+            return subTaskService.completeSubTask(subTaskID);
+    }
 }

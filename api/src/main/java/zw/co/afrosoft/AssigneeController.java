@@ -7,29 +7,44 @@ import org.springframework.web.bind.annotation.*;
 import zw.co.afrosoft.Requests.AssigneeRequest;
 import zw.co.afrosoft.Requests.SubTaskRequest;
 import zw.co.afrosoft.Requests.TaskRequest;
+import zw.co.afrosoft.Responses.AssigneeResponse;
 import zw.co.afrosoft.Responses.Response;
+import zw.co.afrosoft.Responses.TasksResponse;
 import zw.co.afrosoft.model.Assignee;
 import zw.co.afrosoft.model.SubTask;
 import zw.co.afrosoft.model.Task;
 
+import java.util.List;
+
 @RestController
 public class AssigneeController {
     private final AssigneeService assigneeService;
-
-    public AssigneeController(AssigneeService assigneeService) {
+    private final TaskService taskService;
+    public AssigneeController(AssigneeService assigneeService, TaskService taskService) {
         this.assigneeService = assigneeService;
+        this.taskService = taskService;
     }
 
     @PostMapping("/createAssignee")
     public ResponseEntity<Response> createAssignee(@Valid @RequestBody AssigneeRequest assigneeRequest){
-        try {
-            Assignee assignee = assigneeService.createAssignee(assigneeRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new Response("success", "assignee creation succesful"));
+            return assigneeService.createAssignee(assigneeRequest);
         }
-        catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response("failed","Assignee creation failed"));
-        }
-        }
+//        @GetMapping("/getAssignee/{assigneeID}")
+//        public ResponseEntity<AssigneeResponse> getAssignee(@PathVariable("assigneeID") Integer assigneeID){
+//        return assigneeService.getAssignee(assigneeID);
+//        }
 
+//        @DeleteMapping("/deleteAssignee/{assigneeID}")
+//        public ResponseEntity<Response> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID){
+//        return assigneeService.deleteAssignee(assigneeID);
+//        }
+    @GetMapping("/getAllAssignees")
+    public List<Assignee> getAllAssignees(){
+        return assigneeService.getAllAssignees();
+    }
+
+    @GetMapping("/getTaskByAssigneeName/{name}")
+    public ResponseEntity<TasksResponse> getTaskByAssigneeName(@PathVariable("name") String name){
+        return taskService.getTaskByAssigneeName(name);
+    }
 }

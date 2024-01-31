@@ -30,30 +30,22 @@ public class TaskController {
 
     @PostMapping("/createTask")
     public ResponseEntity<Response> createTask(@Valid @RequestBody TaskRequest taskRequest) {
-        try {
-            Task task = taskService.createTask(taskRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new Response("success", "task creation successful"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response("failed", "Assignee creation failed"));
-        }
+            return taskService.createTask(taskRequest);
     }
 
     @PutMapping("/updateTaskDeadline/{taskID}")
     public ResponseEntity<Response> updateTaskDescription(@PathVariable("taskID") Integer taskID, @RequestParam LocalDate taskDeadline) {
-        taskService.updateTaskDescription(taskID,taskDeadline);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("success","task sucesfully updated"));
-        }
+        return taskService.updateTaskDescription(taskID,taskDeadline);
+    }
 
     @GetMapping("/getTask/{taskID}")
     public ResponseEntity<TaskResponse> getTaskByID(@PathVariable("taskID") Integer taskId) {
-        Task task = taskRepository.findById(taskId).orElse(new Task());
-        return ResponseEntity.status(HttpStatus.OK).body(new TaskResponse(task.getTaskName(),taskService.getTaskByID(taskId)));
+        return taskService.getTaskByID(taskId);
     }
 
     @GetMapping("/tasks/getAllTasks")
     public ResponseEntity<TasksResponse> getAllTasks(){
-        return ResponseEntity.status(HttpStatus.OK).body(new TasksResponse(taskService.getAllTasks()));
+        return taskService.getAllTasks();
     }
 
     @PersistenceContext
@@ -61,7 +53,11 @@ public class TaskController {
 
     @DeleteMapping("/tasks/deleteTask/{taskID}")
     public ResponseEntity<Response> deleteTask(@Valid @PathVariable("taskID") Integer taskID){
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("success","task deleted successfully"));
+        return taskService.deleteTaskByID(taskID);
     }
 
+    @GetMapping("task/calculateCompletionLeve/{taskID}")
+    public ResponseEntity<Response> calculateCompletionLevel(@PathVariable Integer taskID){
+        return taskService.calculateTaskCompletionLevel(taskID);
+    }
 }
