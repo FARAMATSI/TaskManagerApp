@@ -57,7 +57,7 @@ public class AssigneeServiceImpl implements AssigneeService {
     public ResponseEntity<Response> deleteAssignee(Integer assigneeID){
         Optional<Assignee> existingAssignee = assigneeRepository.findById(assigneeID);
         if(existingAssignee.isEmpty()){
-            throw new RecordNotFoundException("Assignee not found in the database");
+            throw new RecordNotFoundException("Assignee nottttttt found in the database");
         }
         assigneeRepository.deleteAssigneeByAssigneeID(assigneeID);
         return ResponseEntity.ok(new Response("success","assignee deletion successful"));
