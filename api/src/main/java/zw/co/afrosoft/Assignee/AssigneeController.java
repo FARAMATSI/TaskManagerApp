@@ -1,18 +1,18 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.Assignee;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import zw.co.afrosoft.AssigneeService;
 import zw.co.afrosoft.Requests.AssigneeRequest;
-import zw.co.afrosoft.Requests.SubTaskRequest;
-import zw.co.afrosoft.Requests.TaskRequest;
-import zw.co.afrosoft.Responses.AssigneeResponse;
+
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.TasksResponse;
+import zw.co.afrosoft.TaskService;
 import zw.co.afrosoft.model.Assignee;
-import zw.co.afrosoft.model.SubTask;
-import zw.co.afrosoft.model.Task;
+
 
 import java.util.List;
 
@@ -26,28 +26,24 @@ public class AssigneeController {
     }
 
     @PostMapping("/createAssignee")
+    @Operation(summary ="Create a new Assignee")
     public ResponseEntity<Response> createAssignee(@Valid @RequestBody AssigneeRequest assigneeRequest){
             return assigneeService.createAssignee(assigneeRequest);
         }
-//        @GetMapping("/getAssignee/{assigneeID}")
-//        public ResponseEntity<AssigneeResponse> getAssignee(@PathVariable("assigneeID") Integer assigneeID){
-//        return assigneeService.getAssignee(assigneeID);
-//        }
 
-//        @DeleteMapping("/deleteAssignee/{assigneeID}")
-//        public ResponseEntity<Response> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID){
-//        return assigneeService.deleteAssignee(assigneeID);
-//        }
     @GetMapping("/getAllAssignees")
+    @Operation(summary = "it provides a list of all the assignees in the database") //?
     public List<Assignee> getAllAssignees(){
         return assigneeService.getAllAssignees();
     }
 
     @GetMapping("/getTaskByAssigneeName/{name}")
+    @Operation(summary = "provides a list of all the tasks assigned to te specified user")
     public ResponseEntity<TasksResponse> getTaskByAssigneeName(@PathVariable("name") String name){
         return taskService.getTaskByAssigneeName(name);
     }
     @DeleteMapping("/deleteAssignee/{assigneeID}")
+    @Operation(summary = "deletes an assignee from the database")
     public ResponseEntity<Response> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID){
         return assigneeService.deleteAssignee(assigneeID);
     }

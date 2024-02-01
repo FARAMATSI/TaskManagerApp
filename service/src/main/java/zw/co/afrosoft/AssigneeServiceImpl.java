@@ -1,5 +1,8 @@
 package zw.co.afrosoft;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,6 +50,9 @@ public class AssigneeServiceImpl implements AssigneeService {
     public List<Assignee> getAllAssignees(){
         return assigneeRepository.findAll();
     }
+    @PersistenceContext
+    private EntityManager entityManager;
+    @Transactional
     @Override
     public ResponseEntity<Response> deleteAssignee(Integer assigneeID){
         Optional<Assignee> existingAssignee = assigneeRepository.findById(assigneeID);
