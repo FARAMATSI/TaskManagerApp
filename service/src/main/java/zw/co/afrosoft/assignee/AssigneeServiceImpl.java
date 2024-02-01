@@ -1,19 +1,15 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.assignee;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import zw.co.afrosoft.AssigneeRepository;
 import zw.co.afrosoft.Requests.AssigneeRequest;
-import zw.co.afrosoft.Responses.AssigneeResponse;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.exceptions.RecordNotFoundException;
+import zw.co.afrosoft.exceptions.AssigneeNotFoundException;
 import zw.co.afrosoft.model.Assignee;
 
 import java.util.List;
@@ -23,7 +19,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AssigneeServiceImpl implements AssigneeService {
     private final AssigneeRepository assigneeRepository;
-    private final TaskRepository taskRepository;
     @Override
     public ResponseEntity<Response> createAssignee(AssigneeRequest assigneeRequest) {
         try {
@@ -57,7 +52,7 @@ public class AssigneeServiceImpl implements AssigneeService {
     public ResponseEntity<Response> deleteAssignee(Integer assigneeID){
         Optional<Assignee> existingAssignee = assigneeRepository.findById(assigneeID);
         if(existingAssignee.isEmpty()){
-            throw new RecordNotFoundException("Assignee nottttttt found in the database");
+            throw new AssigneeNotFoundException("Assignee not found in the database");
         }
         assigneeRepository.deleteAssigneeByAssigneeID(assigneeID);
         return ResponseEntity.ok(new Response("success","assignee deletion successful"));

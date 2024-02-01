@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.afrosoft.Requests.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.Responses.TaskResponse;
-import zw.co.afrosoft.Responses.TasksResponse;
+import zw.co.afrosoft.Responses.task.TaskResponse;
+import zw.co.afrosoft.Responses.task.TasksResponse;
 import zw.co.afrosoft.TaskRepository;
-import zw.co.afrosoft.TaskService;
+import zw.co.afrosoft.task.TaskService;
 
 
 import java.time.LocalDate;
@@ -36,19 +36,19 @@ public class TaskController {
     }
 
     @PutMapping("/updateTaskDeadline/{taskID}")
-    @Operation (summary = "update the task deadline")
+    @Operation (summary = "update the task deadline by its ID")
     public ResponseEntity<Response> updateTaskDescription(@PathVariable("taskID") Integer taskID, @RequestParam LocalDate taskDeadline) {
         return taskService.updateTaskDescription(taskID,taskDeadline);
     }
 
     @GetMapping("/getTask/{taskID}")
-    @Operation (summary = "Retrieves a single task by its ID")
+    @Operation (summary = "Retrieves a single task by its ID and its subtasks")
     public ResponseEntity<TaskResponse> getTaskByID(@PathVariable("taskID") Integer taskId) {
         return taskService.getTaskByID(taskId);
     }
 
     @GetMapping("/tasks/getAllTasks")
-    @Operation (summary = "Retrieves all the user's tasks")
+    @Operation (summary = "Retrieves all the tasks and their respective assignee and the subtasks")
     public ResponseEntity<TasksResponse> getAllTasks(){
         return taskService.getAllTasks();
     }
@@ -57,7 +57,7 @@ public class TaskController {
     private EntityManager entityManager;
 
     @DeleteMapping("/tasks/deleteTask/{taskID}")
-    @Operation (summary = "Delete a task")
+    @Operation (summary = "Delete a task and its subtasks as well")
     public ResponseEntity<Response> deleteTask(@Valid @PathVariable("taskID") Integer taskID){
         return taskService.deleteTaskByID(taskID);
     }

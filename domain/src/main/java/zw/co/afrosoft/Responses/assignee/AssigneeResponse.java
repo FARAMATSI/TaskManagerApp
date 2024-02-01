@@ -1,4 +1,4 @@
-package zw.co.afrosoft.Responses;
+package zw.co.afrosoft.Responses.assignee;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

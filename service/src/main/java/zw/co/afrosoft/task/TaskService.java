@@ -1,18 +1,12 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.task;
 
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import zw.co.afrosoft.Requests.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.Responses.TaskResponse;
-import zw.co.afrosoft.Responses.TasksResponse;
-import zw.co.afrosoft.model.SubTask;
-import zw.co.afrosoft.model.Task;
+import zw.co.afrosoft.Responses.task.TaskResponse;
+import zw.co.afrosoft.Responses.task.TasksResponse;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 public interface TaskService {
     ResponseEntity<Response> createTask(TaskRequest taskRequest);

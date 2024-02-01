@@ -5,12 +5,13 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import zw.co.afrosoft.AssigneeService;
+import zw.co.afrosoft.assignee.AssigneeService;
 import zw.co.afrosoft.Requests.AssigneeRequest;
 
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.Responses.TasksResponse;
-import zw.co.afrosoft.TaskService;
+import zw.co.afrosoft.Responses.task.TasksResponse;
+import zw.co.afrosoft.task.TaskService;
+import zw.co.afrosoft.exceptions.AssigneeNotFoundException;
 import zw.co.afrosoft.model.Assignee;
 
 
@@ -32,19 +33,19 @@ public class AssigneeController {
         }
 
     @GetMapping("/getAllAssignees")
-    @Operation(summary = "it provides a list of all the assignees in the database") //?
+    @Operation(summary = "it provides a list of all the assignees and their tasks from the database") //?
     public List<Assignee> getAllAssignees(){
         return assigneeService.getAllAssignees();
     }
 
     @GetMapping("/getTaskByAssigneeName/{name}")
-    @Operation(summary = "provides a list of all the tasks assigned to te specified user")
+    @Operation(summary = "provides a list of all the tasks and subtasks assigned to te specified assignee")
     public ResponseEntity<TasksResponse> getTaskByAssigneeName(@PathVariable("name") String name){
         return taskService.getTaskByAssigneeName(name);
     }
     @DeleteMapping("/deleteAssignee/{assigneeID}")
     @Operation(summary = "deletes an assignee from the database")
-    public ResponseEntity<Response> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID){
+    public ResponseEntity<Response> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID) throws AssigneeNotFoundException {
         return assigneeService.deleteAssignee(assigneeID);
     }
 }

@@ -1,4 +1,4 @@
-package zw.co.afrosoft.Responses;
+package zw.co.afrosoft.Responses.subtask;
 
 import zw.co.afrosoft.model.SubTask;
 

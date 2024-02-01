@@ -1,4 +1,4 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.subtask;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
