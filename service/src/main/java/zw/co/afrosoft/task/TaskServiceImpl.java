@@ -5,6 +5,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,14 +30,10 @@ import java.util.logging.Logger;
 
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
  private final TaskRepository taskRepository;
  private final SubTaskRepository subTaskRepository;
-    private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class.getName());
-
-
     public ResponseEntity<Response> createTask(TaskRequest taskRequest){
      try {
          var task = Task.builder()
@@ -51,12 +49,10 @@ public class TaskServiceImpl implements TaskService {
          return ResponseEntity.ok(new Response("success","task created"));
      }
      catch (Exception e){
-         LOGGER.severe("Error creating task: " + e.getMessage());
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","task creation failed"));
 
      }
  }
-
  @Override
     public ResponseEntity<Response> updateTaskDescription(Integer taskID, LocalDate taskDeadline) {
             Optional<Task> existingTask = taskRepository.findById(taskID);
@@ -116,17 +112,16 @@ public class TaskServiceImpl implements TaskService {
          return ResponseEntity.ok(new Response("success", completionLevel + "% Complete"));
      }
      catch (ArithmeticException e){
-         LOGGER.severe("Error calculating task completion level: " + e.getMessage());
-         return ResponseEntity.ok(new Response("failed","Arithmetic Exception : -- "+e));
+         return ResponseEntity.ok(new Response("failed","Arithmetic Exception : -- "+e.getMessage()));
      }
     }
     @Override
-    public ResponseEntity<TasksResponse> getAllTasks(){
-            List<Task> allTasks =  taskRepository.findAll();
+    public ResponseEntity<TasksResponse> getAllTasks(int pageNumber, int pageSize){
+            Page<Task> allTasks =  taskRepository.findAll(PageRequest.of(pageNumber,pageSize));
             if(allTasks.isEmpty()){
                 throw new NoTaskToDisplayException("No tasks to Display");
             }
-            return ResponseEntity.ok(new TasksResponse("all tasks",allTasks));
+            return ResponseEntity.ok(new TasksResponse("all tasks",allTasks.getContent()));
     }
     @PersistenceContext
     private EntityManager entityManager;

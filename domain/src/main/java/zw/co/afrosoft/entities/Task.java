@@ -21,21 +21,21 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "taskName")
+    @Column(name = "task_Name")
     private String taskName;
 
-    @Column(name = "taskDescription")
+    @Column(name = "task_Description")
     private String taskDescription;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "assigneeID")
+    @JoinColumn(name = "assignee_ID")
     private Assignee assignee;
 
     @OneToMany(mappedBy = "task")
     private List<SubTask> subTaskList;
 
-    @Column(name = "completionLevel")
+    @Column(name = "completion_Level")
     private Double taskCompletionLevel;
 
     @Column(name = "deadline")

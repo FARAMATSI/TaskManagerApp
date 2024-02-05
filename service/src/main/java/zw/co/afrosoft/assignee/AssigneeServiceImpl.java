@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 import zw.co.afrosoft.AssigneeRepository;
 import zw.co.afrosoft.Requests.AssigneeRequest;
 import zw.co.afrosoft.Responses.Response;
+import zw.co.afrosoft.SubTaskRepository;
+import zw.co.afrosoft.TaskRepository;
+import zw.co.afrosoft.entities.SubTask;
+import zw.co.afrosoft.entities.Task;
 import zw.co.afrosoft.exceptions.AssigneeNotFoundException;
 import zw.co.afrosoft.entities.Assignee;
+import zw.co.afrosoft.task.TaskService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +24,11 @@ import java.util.logging.Logger;
 @Service
 @RequiredArgsConstructor
 public class AssigneeServiceImpl implements AssigneeService {
+
     private static final Logger LOGGER = Logger.getLogger(AssigneeServiceImpl.class.getName());
     private final AssigneeRepository assigneeRepository;
+    private final SubTaskRepository subTaskRepository;
+    private final TaskRepository taskRepository;
     @Override
     public ResponseEntity<Response> createAssignee(AssigneeRequest assigneeRequest) {
         try {
@@ -48,7 +56,26 @@ public class AssigneeServiceImpl implements AssigneeService {
         if(existingAssignee.isEmpty()){
             throw new AssigneeNotFoundException("Assignee not found in the database");
         }
-        assigneeRepository.deleteAssigneeByAssigneeID(assigneeID);
+
+        Assignee assignee = existingAssignee.get();
+
+        // Deleting the assignee's tasks and their subtasks
+        for(Task task : taskRepository.findAll()){
+            if(task.getAssignee().getAssigneeID().equals(assigneeID)){
+                // Deleting the task's subtasks
+                for(SubTask subTask : subTaskRepository.findAll()){
+                    if(subTask.getTask().getId().equals(task.getId())){
+                        subTaskRepository.delete(subTask);
+                    }
+                }
+                // Deleting the task
+                taskRepository.delete(task);
+            }
+        }
+
+        // Deleting the assignee
+        assigneeRepository.delete(assignee);
         return ResponseEntity.ok(new Response("success","assignee deletion successful"));
     }
+
 }

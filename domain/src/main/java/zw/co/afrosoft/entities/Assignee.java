@@ -16,10 +16,10 @@ public class Assignee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer assigneeID;
 
-    @JsonManagedReference
-
+    @Column
     private String name;
 
+    @JsonManagedReference // Why did you put this on name
     @OneToMany(mappedBy = "assignee")
     private List<Task> tasks;
 }
