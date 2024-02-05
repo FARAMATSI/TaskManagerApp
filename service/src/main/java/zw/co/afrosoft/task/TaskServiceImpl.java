@@ -136,7 +136,7 @@ public class TaskServiceImpl implements TaskService {
 
         Optional<Task> existingTask = taskRepository.findById(taskID);
 
-        if(existingTask.isEmpty()){
+        if(!existingTask.isPresent()){
             throw new TaskNotFoundException("Task not found in the database");
         }
             // Deleting all the Task's SubTasks
