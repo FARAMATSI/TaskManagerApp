@@ -1,6 +1,6 @@
 package zw.co.afrosoft.Responses.subtask;
 
-import zw.co.afrosoft.model.SubTask;
+import zw.co.afrosoft.entities.SubTask;
 
 import java.util.List;
 

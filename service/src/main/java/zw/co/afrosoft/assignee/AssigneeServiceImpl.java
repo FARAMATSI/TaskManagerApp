@@ -10,14 +10,16 @@ import zw.co.afrosoft.AssigneeRepository;
 import zw.co.afrosoft.Requests.AssigneeRequest;
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.exceptions.AssigneeNotFoundException;
-import zw.co.afrosoft.model.Assignee;
+import zw.co.afrosoft.entities.Assignee;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class AssigneeServiceImpl implements AssigneeService {
+    private static final Logger LOGGER = Logger.getLogger(AssigneeServiceImpl.class.getName());
     private final AssigneeRepository assigneeRepository;
     @Override
     public ResponseEntity<Response> createAssignee(AssigneeRequest assigneeRequest) {
@@ -28,19 +30,11 @@ public class AssigneeServiceImpl implements AssigneeService {
             assigneeRepository.save(assignee);
             return ResponseEntity.ok(new Response("success","assignee created"));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe("Failed to create assignee: " + e);
             return ResponseEntity.ok(new Response("failed!!!","failed to create assignee {"+e+"}"));
         }
     }
 
-//    public ResponseEntity<AssigneeResponse> findAssigneeByName(String assigneeName){
-//        Optional<Assignee> existingAssignee = assigneeRepository.findAssigneeByName(assigneeName);
-//        if(existingAssignee.isEmpty()){
-//            throw new RecordNotFoundException("Assignee not found in the database");
-//        }
-//        AssigneeResponse
-//        return ResponseEntity.ok(new AssigneeResponse(existingAssignee.get()));
-//    }
     @Override
     public List<Assignee> getAllAssignees(){
         return assigneeRepository.findAll();

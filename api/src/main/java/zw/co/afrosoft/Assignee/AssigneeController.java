@@ -12,7 +12,7 @@ import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.task.TasksResponse;
 import zw.co.afrosoft.task.TaskService;
 import zw.co.afrosoft.exceptions.AssigneeNotFoundException;
-import zw.co.afrosoft.model.Assignee;
+import zw.co.afrosoft.entities.Assignee;
 
 
 import java.util.List;

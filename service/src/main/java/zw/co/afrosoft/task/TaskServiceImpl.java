@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import zw.co.afrosoft.AssigneeRepository;
+
 import zw.co.afrosoft.Requests.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.task.TaskResponse;
@@ -17,13 +17,15 @@ import zw.co.afrosoft.SubTaskRepository;
 import zw.co.afrosoft.TaskRepository;
 import zw.co.afrosoft.exceptions.NoTaskToDisplayException;
 import zw.co.afrosoft.exceptions.TaskNotFoundException;
-import zw.co.afrosoft.model.Assignee;
-import zw.co.afrosoft.model.SubTask;
-import zw.co.afrosoft.model.Task;
+import zw.co.afrosoft.entities.Assignee;
+import zw.co.afrosoft.entities.SubTask;
+import zw.co.afrosoft.entities.Task;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 
 @Service
 @Slf4j
@@ -31,7 +33,8 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
  private final TaskRepository taskRepository;
  private final SubTaskRepository subTaskRepository;
- private final AssigneeRepository assigneeRepository;
+    private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class.getName());
+
 
     public ResponseEntity<Response> createTask(TaskRequest taskRequest){
      try {
@@ -48,8 +51,9 @@ public class TaskServiceImpl implements TaskService {
          return ResponseEntity.ok(new Response("success","task created"));
      }
      catch (Exception e){
-         e.printStackTrace();
+         LOGGER.severe("Error creating task: " + e.getMessage());
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","task creation failed"));
+
      }
  }
 
@@ -112,7 +116,7 @@ public class TaskServiceImpl implements TaskService {
          return ResponseEntity.ok(new Response("success", completionLevel + "% Complete"));
      }
      catch (ArithmeticException e){
-         e.printStackTrace();
+         LOGGER.severe("Error calculating task completion level: " + e.getMessage());
          return ResponseEntity.ok(new Response("failed","Arithmetic Exception : -- "+e));
      }
     }

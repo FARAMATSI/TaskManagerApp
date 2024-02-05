@@ -8,8 +8,8 @@ import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.SubTaskRepository;
 import zw.co.afrosoft.task.TaskService;
 import zw.co.afrosoft.exceptions.SubTaskNotFoundException;
-import zw.co.afrosoft.model.SubTask;
-import zw.co.afrosoft.model.Task;
+import zw.co.afrosoft.entities.SubTask;
+import zw.co.afrosoft.entities.Task;
 
 import java.util.Optional;
 
@@ -30,12 +30,11 @@ public class SubTaskServiceImpl implements SubTaskService {
             task.setId(subTaskRequest.getTaskID());
             subTask.setTask(task);
             subTaskRepository.save(subTask);
-            ResponseEntity<Response> responseEntity = ResponseEntity.status(HttpStatus.OK).body(new Response("success","subTask created"));
-            return responseEntity;
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("success","subTask created"));
         }
         catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","error creating task "+e));
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","error creating task "+e.getMessage()));
         }
     }
     @Override

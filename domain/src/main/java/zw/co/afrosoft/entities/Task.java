@@ -1,10 +1,10 @@
-package zw.co.afrosoft.model;
+package zw.co.afrosoft.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-import zw.co.afrosoft.model.Assignee;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @ToString
-@Table(name = "Tasks")
+
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

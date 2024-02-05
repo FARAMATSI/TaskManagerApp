@@ -1,8 +1,6 @@
 package zw.co.afrosoft.Task;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 import jakarta.validation.Valid;
 
@@ -12,7 +10,7 @@ import zw.co.afrosoft.Requests.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.task.TaskResponse;
 import zw.co.afrosoft.Responses.task.TasksResponse;
-import zw.co.afrosoft.TaskRepository;
+
 import zw.co.afrosoft.task.TaskService;
 
 
@@ -22,11 +20,9 @@ import java.time.LocalDate;
 @RestController
 public class TaskController {
     private final TaskService taskService;
-    private final TaskRepository taskRepository;
 
-    public TaskController(TaskService taskService, TaskRepository taskRepository) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
-        this.taskRepository = taskRepository;
     }
 
     @PostMapping("/createTask")
@@ -52,9 +48,6 @@ public class TaskController {
     public ResponseEntity<TasksResponse> getAllTasks(){
         return taskService.getAllTasks();
     }
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @DeleteMapping("/tasks/deleteTask/{taskID}")
     @Operation (summary = "Delete a task and its subtasks as well")
