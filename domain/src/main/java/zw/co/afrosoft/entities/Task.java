@@ -21,10 +21,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "task_Name")
     private String taskName;
 
-    @Column(name = "task_Description")
     private String taskDescription;
 
     @JsonBackReference

@@ -20,7 +20,7 @@ public class SubTask {
     private String subTaskName;
 
     @ManyToOne
-    @JsonIgnore // Why did you change the previous annotation
+    @JsonIgnore
     @JoinColumn(name = "task_ID")
     private Task task;
 
