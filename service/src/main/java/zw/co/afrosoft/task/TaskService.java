@@ -12,7 +12,7 @@ public interface TaskService {
     ResponseEntity<Response> createTask(TaskRequest taskRequest);
     ResponseEntity<Response> updateTaskDescription(Integer taskID, LocalDate deadline);
     ResponseEntity<TaskResponse> getTaskByID(Integer taskID);
-    ResponseEntity<TasksResponse> getAllTasks();
+    ResponseEntity<TasksResponse> getAllTasks(int offset, int size);
     ResponseEntity<Response> deleteTaskByID(Integer taskID);
     ResponseEntity<Response> calculateTaskCompletionLevel(Integer taskID);
     ResponseEntity<TasksResponse> getTaskByAssigneeName(String name);

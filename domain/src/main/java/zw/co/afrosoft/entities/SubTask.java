@@ -14,16 +14,17 @@ import lombok.*;
 public class SubTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer subTaskID;
+    private Integer id;
 
-    @Column
+    @Column(name = "subTask_name")
     private String subTaskName;
+
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "taskID")
+    @JsonIgnore // Why did you change the previous annotation
+    @JoinColumn(name = "task_ID")
     private Task task;
 
-    @Column
+    @Column(name = "is_SubTask_completed")
     private Boolean isSubTaskCompleted;
 
 }

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import jakarta.validation.Valid;
 
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.afrosoft.Requests.TaskRequest;
@@ -42,11 +43,12 @@ public class TaskController {
     public ResponseEntity<TaskResponse> getTaskByID(@PathVariable("taskID") Integer taskId) {
         return taskService.getTaskByID(taskId);
     }
-
     @GetMapping("/tasks/getAllTasks")
     @Operation (summary = "Retrieves all the tasks and their respective assignee and the subtasks")
-    public ResponseEntity<TasksResponse> getAllTasks(){
-        return taskService.getAllTasks();
+    public ResponseEntity<TasksResponse> getAllTasks(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "5") int pageSize){
+        return taskService.getAllTasks(pageNumber, pageSize);
     }
 
     @DeleteMapping("/tasks/deleteTask/{taskID}")
