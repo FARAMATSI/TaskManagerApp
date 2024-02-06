@@ -39,33 +39,6 @@ public class AssigneeServiceImpl implements AssigneeService {
             return ResponseEntity.ok(new Response("failed!!!","failed to create assignee {"+e+"}"));
         }
     }
-
-//    @Override
-//    public ResponseEntity<AssigneeResponse> createAssignee(AssigneeRequest assigneeRequest) {
-//        try {
-//            var assignee = Assignee.builder()
-//                    .name(assigneeRequest.getName())
-//                    .build();
-//            assigneeRepository.save(assignee);
-//            List<Task> assigneeTasks = new ArrayList<>();
-//            Task task1 = new Task(); // Initialize your Task object here
-//            Task task2 = new Task(); // Initialize another Task object here
-//            assigneeTasks.add(task1);
-//            assigneeTasks.add(task2);
-//
-//            return ResponseEntity.ok(new AssigneeResponse(assignee.getName(), assigneeTasks)); //line 1
-//        } catch (Exception e) {
-//            List<Task> assigneeTasks = new ArrayList<>();
-//            Task task1 = new Task(); // Initialize your Task object here
-//            Task task2 = new Task(); // Initialize another Task object here
-//            assigneeTasks.add(task1);
-//            assigneeTasks.add(task2);
-//             LOGGER.severe("Failed to create assignee: " + e);
-//             return ResponseEntity.ok(new AssigneeResponse("failed", assigneeTasks));
-//        }
-//    }
-
-
     @Override
     public List<Assignee> getAllAssignees(){
         return assigneeRepository.findAll();
