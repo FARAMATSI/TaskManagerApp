@@ -29,7 +29,7 @@ public class Task {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "assigneeID")
+  //  @JoinColumn(name = "assigneeID")
     private Assignee assignee;
 
     @OneToMany(mappedBy = "task")

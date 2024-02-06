@@ -5,7 +5,7 @@ import zw.co.afrosoft.entities.SubTask;
 import java.util.List;
 
 public class SubTasksResponse {
-    private List<SubTask> subTasksList;
+    final List<SubTask> subTasksList;
     public SubTasksResponse(List<SubTask> subTaskList) {
         this.subTasksList = subTaskList;
     }
