@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.afrosoft.Requests.SubTaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.SubTaskService;
+import zw.co.afrosoft.subtask.SubTaskService;
 
 
 @RestController
@@ -27,12 +27,12 @@ public class SubTaskController {
     }
     
     @PutMapping("/completeSubtask/{subTaskID}")
-    @Operation (summary = "Complete sub task")
+    @Operation (summary = "Complete sub task by its ID")
     public ResponseEntity<Response> completeSubTask(@PathVariable("subTaskID") Integer subTaskID){
             return subTaskService.completeSubTask(subTaskID);
     }
     @DeleteMapping("/deleteSubTask/{subTaskID}")
-    @Operation (summary = "Delete sub task")
+    @Operation (summary = "Delete sub task by its ID")
     public ResponseEntity<Response> deleteSubTask(@PathVariable("subTaskID") Integer subTaskID){
             return subTaskService.deleteSubTask(subTaskID);
     }

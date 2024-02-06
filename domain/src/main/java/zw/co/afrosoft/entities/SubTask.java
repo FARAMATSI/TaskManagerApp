@@ -1,16 +1,15 @@
-package zw.co.afrosoft.model;
+package zw.co.afrosoft.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.relational.core.sql.In;
 
 @Entity
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "subTasks")
+
 @Builder
 public class SubTask {
     @Id

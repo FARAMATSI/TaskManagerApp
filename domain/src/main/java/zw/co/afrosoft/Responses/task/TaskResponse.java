@@ -1,9 +1,9 @@
-package zw.co.afrosoft.Responses;
+package zw.co.afrosoft.Responses.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import zw.co.afrosoft.model.SubTask;
+import zw.co.afrosoft.entities.SubTask;
 
 import java.util.List;
 @AllArgsConstructor

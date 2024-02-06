@@ -1,13 +1,15 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.subtask;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import zw.co.afrosoft.Requests.SubTaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.exceptions.RecordNotFoundException;
-import zw.co.afrosoft.model.SubTask;
-import zw.co.afrosoft.model.Task;
+import zw.co.afrosoft.SubTaskRepository;
+import zw.co.afrosoft.task.TaskService;
+import zw.co.afrosoft.exceptions.SubTaskNotFoundException;
+import zw.co.afrosoft.entities.SubTask;
+import zw.co.afrosoft.entities.Task;
 
 import java.util.Optional;
 
@@ -28,18 +30,18 @@ public class SubTaskServiceImpl implements SubTaskService {
             task.setId(subTaskRequest.getTaskID());
             subTask.setTask(task);
             subTaskRepository.save(subTask);
-            return ResponseEntity.ok(new Response("success","Subtask created"));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("success","subTask created"));
         }
         catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","error creating task "+e));
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","error creating task "+e.getMessage()));
         }
     }
     @Override
     public ResponseEntity<Response> completeSubTask(Integer subTaskID){
             Optional<SubTask> existingSubTask = subTaskRepository.findById(subTaskID);
             if(existingSubTask.isEmpty()){
-                throw new RecordNotFoundException("SubTask not found in the Database");
+                throw new SubTaskNotFoundException("SubTask not found in the Database");
             }
             existingSubTask.get().setIsSubTaskCompleted(true);
             taskService.calculateTaskCompletionLevel(existingSubTask.get().getTask().getId());
@@ -50,7 +52,7 @@ public class SubTaskServiceImpl implements SubTaskService {
         public ResponseEntity<Response> deleteSubTask(Integer subTaskID){
             Optional<SubTask> existingSubTask = subTaskRepository.findById(subTaskID);
             if(existingSubTask.isEmpty()){//isPresent
-                throw new RecordNotFoundException("SubTask not found in the Database");
+                throw new SubTaskNotFoundException("SubTask not found in the Database");
             }
             subTaskRepository.delete(existingSubTask.get());
             return ResponseEntity.status(HttpStatus.OK).body(new Response("success","subTask deleted"));

@@ -1,31 +1,31 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.task;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import zw.co.afrosoft.Requests.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.Responses.TaskResponse;
-import zw.co.afrosoft.Responses.TasksResponse;
-import zw.co.afrosoft.exceptions.DivisionByZero;
-import zw.co.afrosoft.exceptions.RecordNotFoundException;
-import zw.co.afrosoft.model.Assignee;
-import zw.co.afrosoft.model.SubTask;
-import zw.co.afrosoft.model.Task;
+import zw.co.afrosoft.Responses.task.TaskResponse;
+import zw.co.afrosoft.Responses.task.TasksResponse;
+import zw.co.afrosoft.SubTaskRepository;
+import zw.co.afrosoft.TaskRepository;
+import zw.co.afrosoft.exceptions.NoTaskToDisplayException;
+import zw.co.afrosoft.exceptions.TaskNotFoundException;
+import zw.co.afrosoft.entities.Assignee;
+import zw.co.afrosoft.entities.SubTask;
+import zw.co.afrosoft.entities.Task;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 
 @Service
 @Slf4j
@@ -33,7 +33,8 @@ import java.util.Optional;
 public class TaskServiceImpl implements TaskService {
  private final TaskRepository taskRepository;
  private final SubTaskRepository subTaskRepository;
- private final AssigneeRepository assigneeRepository;
+    private static final Logger LOGGER = Logger.getLogger(TaskServiceImpl.class.getName());
+
 
     public ResponseEntity<Response> createTask(TaskRequest taskRequest){
      try {
@@ -50,8 +51,9 @@ public class TaskServiceImpl implements TaskService {
          return ResponseEntity.ok(new Response("success","task created"));
      }
      catch (Exception e){
-         e.printStackTrace();
+         LOGGER.severe("Error creating task: " + e.getMessage());
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","task creation failed"));
+
      }
  }
 
@@ -59,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<Response> updateTaskDescription(Integer taskID, LocalDate taskDeadline) {
             Optional<Task> existingTask = taskRepository.findById(taskID);
             if(existingTask.isEmpty()){
-                throw new RecordNotFoundException("Task Not found in the Database");
+                throw new TaskNotFoundException("Task Not found in the Database");
             }
             existingTask.get().setTaskDeadline(taskDeadline);
             taskRepository.save(existingTask.get());
@@ -70,7 +72,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<TaskResponse> getTaskByID(Integer taskId) {
      Optional<Task> existingTask = taskRepository.findById(taskId);
                 if(existingTask.isEmpty()){
-                    throw new RecordNotFoundException("Record not Found in the Database");
+                    throw new TaskNotFoundException("Task Not found in the Database");
                 }
         List<SubTask> subTasks = subTaskRepository.findByTaskId(taskId);
 
@@ -83,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<TasksResponse> getTaskByAssigneeName(String name){
         List<Task> allTasks =  taskRepository.getTasksByAssignee_Name(name);
         if(allTasks.isEmpty()){
-            throw new RecordNotFoundException("No tasks to Display");
+            throw new NoTaskToDisplayException("No tasks to Display");
         }
         TasksResponse tasksResponse = TasksResponse.builder()
                 .status("success")
@@ -108,13 +110,13 @@ public class TaskServiceImpl implements TaskService {
          completionLevel = (completedTasks / totalSubTasks) * 100;
          Optional<Task> task = taskRepository.findById(taskID);
          if(task.isEmpty()){
-             throw new RecordNotFoundException("Task Not found in the Database");
+             throw new TaskNotFoundException("Task Not found in the Database");
          }
          task.get().setTaskCompletionLevel(completionLevel);
          return ResponseEntity.ok(new Response("success", completionLevel + "% Complete"));
      }
      catch (ArithmeticException e){
-         e.printStackTrace();
+         LOGGER.severe("Error calculating task completion level: " + e.getMessage());
          return ResponseEntity.ok(new Response("failed","Arithmetic Exception : -- "+e));
      }
     }
@@ -122,7 +124,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<TasksResponse> getAllTasks(){
             List<Task> allTasks =  taskRepository.findAll();
             if(allTasks.isEmpty()){
-                throw new RecordNotFoundException("No tasks to Display");
+                throw new NoTaskToDisplayException("No tasks to Display");
             }
             return ResponseEntity.ok(new TasksResponse("all tasks",allTasks));
     }
@@ -134,8 +136,8 @@ public class TaskServiceImpl implements TaskService {
 
         Optional<Task> existingTask = taskRepository.findById(taskID);
 
-        if(existingTask.isEmpty()){
-            throw new RecordNotFoundException("Task not found in the database");
+        if(!existingTask.isPresent()){
+            throw new TaskNotFoundException("Task not found in the database");
         }
             // Deleting all the Task's SubTasks
             subTaskRepository.deleteByTaskId(taskID);

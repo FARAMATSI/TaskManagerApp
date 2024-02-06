@@ -1,4 +1,4 @@
-package zw.co.afrosoft.model;
+package zw.co.afrosoft.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Table(name = "Assignees")
+
 @Builder
 public class Assignee {
     @Id
@@ -17,7 +17,7 @@ public class Assignee {
    private Integer assigneeID;
 
     @JsonManagedReference
-    @Column(name = "assignee_Name")
+
     private String name;
 
     @OneToMany(mappedBy = "assignee")

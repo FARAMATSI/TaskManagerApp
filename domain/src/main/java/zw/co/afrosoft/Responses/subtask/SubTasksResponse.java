@@ -1,11 +1,11 @@
-package zw.co.afrosoft.Responses;
+package zw.co.afrosoft.Responses.subtask;
 
-import zw.co.afrosoft.model.SubTask;
+import zw.co.afrosoft.entities.SubTask;
 
 import java.util.List;
 
 public class SubTasksResponse {
-    private List<SubTask> subTasksList;
+    final List<SubTask> subTasksList;
     public SubTasksResponse(List<SubTask> subTaskList) {
         this.subTasksList = subTaskList;
     }
