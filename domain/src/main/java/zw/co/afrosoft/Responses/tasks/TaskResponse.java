@@ -1,4 +1,4 @@
-package zw.co.afrosoft.Responses.task;
+package zw.co.afrosoft.Responses.tasks;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

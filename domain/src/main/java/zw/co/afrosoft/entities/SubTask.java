@@ -16,15 +16,15 @@ public class SubTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "subTask_name")
+
     private String subTaskName;
 
     @ManyToOne
-    @JsonIgnore // Why did you change the previous annotation
-    @JoinColumn(name = "task_ID")
+    @JsonIgnore
+
     private Task task;
 
-    @Column(name = "is_SubTask_completed")
+
     private Boolean isSubTaskCompleted;
 
 }

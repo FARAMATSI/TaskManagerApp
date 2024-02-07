@@ -19,7 +19,7 @@ public class Assignee {
     @Column
     private String name;
 
-    @JsonManagedReference // Why did you put this on name
+  //  @JsonManagedReference
     @OneToMany(mappedBy = "assignee")
     private List<Task> tasks;
 }

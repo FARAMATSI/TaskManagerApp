@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import zw.co.afrosoft.Requests.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.Responses.task.TaskResponse;
-import zw.co.afrosoft.Responses.task.TasksResponse;
+import zw.co.afrosoft.Responses.tasks.TaskResponse;
+import zw.co.afrosoft.Responses.tasks.TasksResponse;
 import zw.co.afrosoft.SubTaskRepository;
 import zw.co.afrosoft.TaskRepository;
 import zw.co.afrosoft.exceptions.NoTaskToDisplayException;
@@ -26,7 +26,6 @@ import zw.co.afrosoft.entities.Task;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 
 @Service
@@ -91,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<Response> calculateTaskCompletionLevel(Integer taskID){
+    public void calculateTaskCompletionLevel(Integer taskID){
      List<SubTask> subtasksList = subTaskRepository.findByTaskId(taskID);
      double completionLevel;
      double completedTasks=0;
@@ -109,10 +108,10 @@ public class TaskServiceImpl implements TaskService {
              throw new TaskNotFoundException("Task Not found in the Database");
          }
          task.get().setTaskCompletionLevel(completionLevel);
-         return ResponseEntity.ok(new Response("success", completionLevel + "% Complete"));
+         ResponseEntity.ok(new Response("success", completionLevel + "% Complete"));
      }
      catch (ArithmeticException e){
-         return ResponseEntity.ok(new Response("failed","Arithmetic Exception : -- "+e.getMessage()));
+         ResponseEntity.ok(new Response("failed", "Arithmetic Exception : -- " + e.getMessage()));
      }
     }
     @Override
@@ -131,7 +130,7 @@ public class TaskServiceImpl implements TaskService {
 
         Optional<Task> existingTask = taskRepository.findById(taskID);
 
-        if(!existingTask.isPresent()){
+        if(existingTask.isEmpty()){
             throw new TaskNotFoundException("Task not found in the database");
         }
             // Deleting all the Task's SubTasks

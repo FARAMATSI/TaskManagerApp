@@ -4,13 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import jakarta.validation.Valid;
 
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.afrosoft.Requests.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.Responses.task.TaskResponse;
-import zw.co.afrosoft.Responses.task.TasksResponse;
+import zw.co.afrosoft.Responses.tasks.TaskResponse;
+import zw.co.afrosoft.Responses.tasks.TasksResponse;
 
 import zw.co.afrosoft.task.TaskService;
 
@@ -19,6 +18,7 @@ import java.time.LocalDate;
 
 
 @RestController
+@RequestMapping("Tasks")
 public class TaskController {
     private final TaskService taskService;
 

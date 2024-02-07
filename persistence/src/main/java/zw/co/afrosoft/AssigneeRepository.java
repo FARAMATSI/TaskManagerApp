@@ -9,5 +9,5 @@ import zw.co.afrosoft.entities.Assignee;
 @Repository
 public interface AssigneeRepository  extends JpaRepository<Assignee,Integer> {
 
-    void deleteAssigneeByAssigneeID(Integer assigneeID);
+
 }
