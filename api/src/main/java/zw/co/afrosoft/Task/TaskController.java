@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.afrosoft.Requests.Task.TaskRequest;
@@ -11,6 +14,7 @@ import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.tasks.TaskResponse;
 import zw.co.afrosoft.Responses.tasks.TasksResponse;
 
+import zw.co.afrosoft.entities.Task.Task;
 import zw.co.afrosoft.task.TaskService;
 
 
@@ -45,10 +49,8 @@ public class TaskController {
     }
     @GetMapping("/tasks/getAllTasks")
     @Operation (summary = "Retrieves all the tasks and their respective assignee and the subtasks")
-    public ResponseEntity<TasksResponse> getAllTasks(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "5") int pageSize){
-        return taskService.getAllTasks(pageNumber, pageSize);
+    public Page<Task>  getAllTasks(@PageableDefault Pageable pageable){
+        return taskService.getAllTasks(pageable);
     }
 
     @DeleteMapping("/tasks/deleteTask/{taskID}")

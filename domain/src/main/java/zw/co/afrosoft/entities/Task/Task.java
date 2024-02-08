@@ -23,7 +23,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "task_Name")
+
     private String taskName;
 
     @Column(name = "task_Description")
@@ -43,5 +43,7 @@ public class Task {
     @Column(name = "deadline")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate taskDeadline;
+
+    private String randomChar;
 
 }

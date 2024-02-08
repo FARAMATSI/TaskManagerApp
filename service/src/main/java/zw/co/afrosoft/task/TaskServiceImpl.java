@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -118,12 +119,10 @@ public class TaskServiceImpl implements TaskService {
      }
     }
     @Override
-    public ResponseEntity<TasksResponse> getAllTasks(int pageNumber, int pageSize){
-            Page<Task> allTasks =  taskRepository.findAll(PageRequest.of(pageNumber,pageSize));
-            if(allTasks.isEmpty()){
-                throw new NoTaskToDisplayException("No tasks to Display");
-            }
-            return ResponseEntity.ok(new TasksResponse("all tasks",allTasks.getContent()));
+    public Page<Task> getAllTasks(Pageable pageable){
+            return   taskRepository.findAll(pageable);
+
+
     }
     @PersistenceContext
     private EntityManager entityManager;
