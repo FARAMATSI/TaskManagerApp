@@ -1,8 +1,8 @@
-package zw.co.afrosoft.entities;
+package zw.co.afrosoft.entities.Assignee;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import zw.co.afrosoft.entities.Task.Task;
 
 import java.util.List;
 @Entity
@@ -18,6 +18,9 @@ public class Assignee {
 
     @Column
     private String name;
+
+    private String profession;
+    private String department;
 
   //  @JsonManagedReference
     @OneToMany(mappedBy = "assignee")

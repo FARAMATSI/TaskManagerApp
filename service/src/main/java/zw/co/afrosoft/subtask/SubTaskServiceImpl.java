@@ -3,13 +3,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import zw.co.afrosoft.Requests.SubTaskRequest;
+import zw.co.afrosoft.Requests.subTask.SubTaskRequest;
 import zw.co.afrosoft.Responses.subTask.subTaskResponse;
-import zw.co.afrosoft.SubTaskRepository;
+import zw.co.afrosoft.Repositories.SubTask.SubTaskRepository;
 import zw.co.afrosoft.task.TaskService;
-import zw.co.afrosoft.exceptions.SubTaskNotFoundException;
-import zw.co.afrosoft.entities.SubTask;
-import zw.co.afrosoft.entities.Task;
+import zw.co.afrosoft.exceptions.SubTask.SubTaskNotFoundException;
+import zw.co.afrosoft.entities.subTask.SubTask;
+import zw.co.afrosoft.entities.Task.Task;
 
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public class SubTaskServiceImpl implements SubTaskService {
                 throw new SubTaskNotFoundException("SubTask not found in the Database");
             }
             existingSubTask.get().setIsSubTaskCompleted(true);
-            taskService.calculateTaskCompletionLevel(existingSubTask.get().getTask().getId());
+            taskService.calculateTaskCompletionPercentage(existingSubTask.get().getTask().getId());
             subTaskRepository.save(existingSubTask.get());
             return ResponseEntity.status(HttpStatus.OK).body(new subTaskResponse("success","subTask completed"));
         }

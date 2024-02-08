@@ -1,9 +1,11 @@
-package zw.co.afrosoft.entities;
+package zw.co.afrosoft.entities.Task;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import zw.co.afrosoft.entities.Assignee.Assignee;
+import zw.co.afrosoft.entities.subTask.SubTask;
 
 
 import java.time.LocalDate;
@@ -36,7 +38,7 @@ public class Task {
     private List<SubTask> subTaskList;
 
     @Column(name = "completion_Level")
-    private Double taskCompletionLevel;
+    private Double taskCompletionPercentage;
 
     @Column(name = "deadline")
     @JsonFormat(pattern = "yyyy-MM-dd")

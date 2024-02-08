@@ -1,4 +1,4 @@
-package zw.co.afrosoft.exceptions;
+package zw.co.afrosoft.exceptions.Task;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

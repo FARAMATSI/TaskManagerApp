@@ -1,4 +1,4 @@
-package zw.co.afrosoft.Requests;
+package zw.co.afrosoft.Requests.Task;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

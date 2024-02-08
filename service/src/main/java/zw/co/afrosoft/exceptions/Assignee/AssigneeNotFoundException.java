@@ -1,12 +1,11 @@
-package zw.co.afrosoft.exceptions;
+package zw.co.afrosoft.exceptions.Assignee;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class SubTaskNotFoundException extends RuntimeException {
-
-    public SubTaskNotFoundException(String message) {
+public class AssigneeNotFoundException extends RuntimeException {
+    public AssigneeNotFoundException(String message) {
         super(message);
     }
 }

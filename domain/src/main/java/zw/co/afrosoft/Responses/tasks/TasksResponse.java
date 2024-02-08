@@ -3,7 +3,7 @@ package zw.co.afrosoft.Responses.tasks;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import zw.co.afrosoft.entities.Task;
+import zw.co.afrosoft.entities.Task.Task;
 
 import java.util.List;
 @AllArgsConstructor

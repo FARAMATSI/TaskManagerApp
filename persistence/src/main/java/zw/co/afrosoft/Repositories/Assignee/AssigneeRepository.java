@@ -1,8 +1,8 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.Repositories.Assignee;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import zw.co.afrosoft.entities.Assignee;
+import zw.co.afrosoft.entities.Assignee.Assignee;
 
 
 

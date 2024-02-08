@@ -1,19 +1,17 @@
 package zw.co.afrosoft.Assignee;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import zw.co.afrosoft.Responses.assignee.AssigneeResponse;
 import zw.co.afrosoft.assignee.AssigneeService;
-import zw.co.afrosoft.Requests.AssigneeRequest;
+import zw.co.afrosoft.Requests.Assignee.AssigneeRequest;
 
 import zw.co.afrosoft.Responses.tasks.TasksResponse;
-import zw.co.afrosoft.entities.Assignee;
 import zw.co.afrosoft.task.TaskService;
-import zw.co.afrosoft.exceptions.AssigneeNotFoundException;
+import zw.co.afrosoft.exceptions.Assignee.AssigneeNotFoundException;
 
 
 
@@ -31,11 +29,9 @@ public class AssigneeController {
 
     @PostMapping("/createAssignee")
     @Operation(summary ="Create a new Assignee")
-    public ResponseEntity<Assignee> createAssignee(@RequestBody AssigneeRequest assigneeRequest){
+    public ResponseEntity<AssigneeResponse> createAssignee(@RequestBody AssigneeRequest assigneeRequest){
             return assigneeService.createAssignee(assigneeRequest);
         }
-
-
 
 
     @GetMapping("/getAssignee/{name}")

@@ -1,4 +1,4 @@
-package zw.co.afrosoft.Requests;
+package zw.co.afrosoft.Requests.Assignee;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -12,4 +12,6 @@ import lombok.RequiredArgsConstructor;
 public class AssigneeRequest {
    // @JsonProperty("name")
    private String name;
+   private String profession;
+   private String department;
 }

@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import zw.co.afrosoft.Requests.TaskRequest;
+import zw.co.afrosoft.Requests.Task.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.tasks.TaskResponse;
 import zw.co.afrosoft.Responses.tasks.TasksResponse;

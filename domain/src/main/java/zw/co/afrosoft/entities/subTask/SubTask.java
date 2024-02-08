@@ -1,8 +1,9 @@
-package zw.co.afrosoft.entities;
+package zw.co.afrosoft.entities.subTask;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import zw.co.afrosoft.entities.Task.Task;
 
 @Entity
 @Data

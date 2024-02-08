@@ -1,9 +1,9 @@
-package zw.co.afrosoft;
+package zw.co.afrosoft.Repositories.SubTask;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
-import zw.co.afrosoft.entities.SubTask;
+import zw.co.afrosoft.entities.subTask.SubTask;
 
 import java.util.List;
 

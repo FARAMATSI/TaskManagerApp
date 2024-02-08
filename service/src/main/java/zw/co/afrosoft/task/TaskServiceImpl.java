@@ -11,17 +11,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import zw.co.afrosoft.Requests.TaskRequest;
+import zw.co.afrosoft.Requests.Task.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.tasks.TaskResponse;
 import zw.co.afrosoft.Responses.tasks.TasksResponse;
-import zw.co.afrosoft.SubTaskRepository;
-import zw.co.afrosoft.TaskRepository;
-import zw.co.afrosoft.exceptions.NoTaskToDisplayException;
-import zw.co.afrosoft.exceptions.TaskNotFoundException;
-import zw.co.afrosoft.entities.Assignee;
-import zw.co.afrosoft.entities.SubTask;
-import zw.co.afrosoft.entities.Task;
+import zw.co.afrosoft.Repositories.SubTask.SubTaskRepository;
+import zw.co.afrosoft.Repositories.Task.TaskRepository;
+import zw.co.afrosoft.exceptions.Task.NoTaskToDisplayException;
+import zw.co.afrosoft.exceptions.Task.TaskNotFoundException;
+import zw.co.afrosoft.entities.Assignee.Assignee;
+import zw.co.afrosoft.entities.subTask.SubTask;
+import zw.co.afrosoft.entities.Task.Task;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
                  .taskName(taskRequest.getTaskName())
                  .taskDescription(taskRequest.getTaskDescription())
                  .taskDeadline(taskRequest.getTaskDeadline())
-                 .taskCompletionLevel(0.0)
+                 .taskCompletionPercentage(0.0)
                  .build();
          var assignee = new Assignee();
          assignee.setAssigneeID(taskRequest.getAssigneeID());
@@ -74,6 +74,7 @@ public class TaskServiceImpl implements TaskService {
         TaskResponse response = TaskResponse.builder()
                         .taskName(existingTask.get().getTaskName())
                         .subTaskList(subTasks)
+                        .completionPercentage(existingTask.get().getTaskCompletionPercentage())
                         .build();
                 return ResponseEntity.ok(response);
     }
@@ -90,11 +91,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void calculateTaskCompletionLevel(Integer taskID){
+    public void calculateTaskCompletionPercentage(Integer taskID){
      List<SubTask> subtasksList = subTaskRepository.findByTaskId(taskID);
-     double completionLevel;
+     double completionPercentage;
      double completedTasks=0;
      double totalSubTasks;
+
      for(SubTask subTask : subtasksList){
          if(subTask.getIsSubTaskCompleted()){
              completedTasks++;
@@ -102,13 +104,14 @@ public class TaskServiceImpl implements TaskService {
      }
      totalSubTasks = subtasksList.size();
      try {
-         completionLevel = (completedTasks / totalSubTasks) * 100;
+         completionPercentage = (completedTasks / totalSubTasks) * 100;
+
          Optional<Task> task = taskRepository.findById(taskID);
          if(task.isEmpty()){
              throw new TaskNotFoundException("Task Not found in the Database");
          }
-         task.get().setTaskCompletionLevel(completionLevel);
-         ResponseEntity.ok(new Response("success", completionLevel + "% Complete"));
+         task.get().setTaskCompletionPercentage(completionPercentage);
+         ResponseEntity.ok(new Response("success", completionPercentage + "% Complete"));
      }
      catch (ArithmeticException e){
          ResponseEntity.ok(new Response("failed", "Arithmetic Exception : -- " + e.getMessage()));
