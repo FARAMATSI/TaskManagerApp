@@ -20,18 +20,18 @@ public class SubTaskController {
         this.subTaskService = subTaskService;
     }
 
-    @PostMapping("/subtask")
+    @PostMapping("")
     @Operation (summary = "Create a new SubTask")
     public ResponseEntity<subTaskResponse> createSubTask(@Valid @RequestBody SubTaskRequest subTaskRequest){
             return subTaskService.createSubTask(subTaskRequest);
     }
     
-    @PutMapping("/subtask/{subtaskID}")
+    @PutMapping("{subtaskID}")
     @Operation (summary = "Complete sub task by its ID")
     public ResponseEntity<subTaskResponse> completeSubTask(@PathVariable("subTaskID") Integer subTaskID){
             return subTaskService.completeSubTask(subTaskID);
     }
-    @DeleteMapping("/SubTask/{subtaskID}")
+    @DeleteMapping("/{subtaskID}")
     @Operation (summary = "Delete sub task by its ID")
     public ResponseEntity<subTaskResponse> deleteSubTask(@PathVariable("subTaskID") Integer subTaskID){
             return subTaskService.deleteSubTask(subTaskID);

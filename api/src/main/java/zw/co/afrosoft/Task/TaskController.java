@@ -30,30 +30,30 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/task")
+    @PostMapping("")
     @Operation (summary = "Create a new task")
     public ResponseEntity<Response> createTask(@Valid @RequestBody TaskRequest taskRequest) {
             return taskService.createTask(taskRequest);
     }
 
-    @PutMapping("/task/{taskID}")
+    @PutMapping("/{taskID}")
     @Operation (summary = "update the task deadline by its ID")
     public ResponseEntity<Response> updateTaskDescription(@PathVariable("taskID") Integer taskID, @RequestParam LocalDate taskDeadline) {
         return taskService.updateTaskDescription(taskID,taskDeadline);
     }
 
-    @GetMapping("/task/{taskID}")
+    @GetMapping("/{taskID}")
     @Operation (summary = "Retrieves a single task by its ID and its subtasks")
     public ResponseEntity<TaskResponse> getTaskByID(@PathVariable("taskID") Integer taskId) {
         return taskService.getTaskByID(taskId);
     }
-    @GetMapping("/tasks")
+    @GetMapping("")
     @Operation (summary = "Retrieves all the tasks and their respective assignee and the subtasks")
     public Page<Task>  getAllTasks(@PageableDefault Pageable pageable){
         return taskService.getAllTasks(pageable);
     }
 
-    @DeleteMapping("/tasks/{taskID}")
+    @DeleteMapping("{taskID}")
     @Operation (summary = "Delete a task and its subtasks as well")
     public ResponseEntity<Response> deleteTask(@Valid @PathVariable("taskID") Integer taskID){
         return taskService.deleteTaskByID(taskID);

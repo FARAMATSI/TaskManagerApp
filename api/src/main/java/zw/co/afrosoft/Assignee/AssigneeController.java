@@ -27,19 +27,19 @@ public class AssigneeController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/assignee")
+    @PostMapping("")
     @Operation(summary ="Create a new Assignee")
     public ResponseEntity<AssigneeResponse> createAssignee(@RequestBody AssigneeRequest assigneeRequest){
             return assigneeService.createAssignee(assigneeRequest);
         }
 
 
-    @GetMapping("/assignee/{name}")
+    @GetMapping("/{name}")
     @Operation(summary = "provides a list of all the tasks and subtasks assigned to te specified assignee")
     public ResponseEntity<TasksResponse> getAssigneeByAssigneeName(@PathVariable("name") String name){
         return taskService.getTaskByAssigneeName(name);
     }
-    @DeleteMapping("/assignee/{assigneeId}")
+    @DeleteMapping("/{assigneeId}")
     @Operation(summary = "deletes an assignee from the database")
     public ResponseEntity<AssigneeResponse> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID) throws AssigneeNotFoundException {
         return assigneeService.deleteAssignee(assigneeID);
