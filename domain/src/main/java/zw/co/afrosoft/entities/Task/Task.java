@@ -26,21 +26,19 @@ public class Task {
 
     private String taskName;
 
-    @Column(name = "task_Description")
+
     private String taskDescription;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "assignee_ID")
     private Assignee assignee;
 
     @OneToMany(mappedBy = "task")
     private List<SubTask> subTaskList;
 
-    @Column(name = "completion_Level")
+
     private Double taskCompletionPercentage;
 
-    @Column(name = "deadline")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate taskDeadline;
 

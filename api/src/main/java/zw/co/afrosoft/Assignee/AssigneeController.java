@@ -18,7 +18,7 @@ import zw.co.afrosoft.exceptions.Assignee.AssigneeNotFoundException;
 
 
 @RestController
-@RequestMapping("/Assignees")
+@RequestMapping("/assignees")
 public class AssigneeController {
     private final AssigneeService assigneeService;
     private final TaskService taskService;
@@ -27,19 +27,19 @@ public class AssigneeController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/createAssignee")
+    @PostMapping("/assignee")
     @Operation(summary ="Create a new Assignee")
     public ResponseEntity<AssigneeResponse> createAssignee(@RequestBody AssigneeRequest assigneeRequest){
             return assigneeService.createAssignee(assigneeRequest);
         }
 
 
-    @GetMapping("/getAssignee/{name}")
+    @GetMapping("/assignee/{name}")
     @Operation(summary = "provides a list of all the tasks and subtasks assigned to te specified assignee")
     public ResponseEntity<TasksResponse> getAssigneeByAssigneeName(@PathVariable("name") String name){
         return taskService.getTaskByAssigneeName(name);
     }
-    @DeleteMapping("/deleteAssignee/{assigneeID}")
+    @DeleteMapping("/assignee/{assigneeId}")
     @Operation(summary = "deletes an assignee from the database")
     public ResponseEntity<AssigneeResponse> deleteAssignee(@PathVariable("assigneeID") Integer assigneeID) throws AssigneeNotFoundException {
         return assigneeService.deleteAssignee(assigneeID);

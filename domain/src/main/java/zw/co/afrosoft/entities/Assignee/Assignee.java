@@ -16,7 +16,7 @@ public class Assignee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer assigneeID;
 
-    @Column
+
     private String name;
 
     private String profession;

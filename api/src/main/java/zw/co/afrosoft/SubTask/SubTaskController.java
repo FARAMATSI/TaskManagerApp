@@ -11,7 +11,7 @@ import zw.co.afrosoft.subtask.SubTaskService;
 
 
 @RestController
-@RequestMapping("SubTask")
+@RequestMapping("subtask")
 public class SubTaskController {
 
     private  final SubTaskService subTaskService;
@@ -20,18 +20,18 @@ public class SubTaskController {
         this.subTaskService = subTaskService;
     }
 
-    @PostMapping("/createSubTask")
+    @PostMapping("/subtask")
     @Operation (summary = "Create a new SubTask")
     public ResponseEntity<subTaskResponse> createSubTask(@Valid @RequestBody SubTaskRequest subTaskRequest){
             return subTaskService.createSubTask(subTaskRequest);
     }
     
-    @PutMapping("/completeSubtask/{subTaskID}")
+    @PutMapping("/subtask/{subtaskID}")
     @Operation (summary = "Complete sub task by its ID")
     public ResponseEntity<subTaskResponse> completeSubTask(@PathVariable("subTaskID") Integer subTaskID){
             return subTaskService.completeSubTask(subTaskID);
     }
-    @DeleteMapping("/deleteSubTask/{subTaskID}")
+    @DeleteMapping("/SubTask/{subtaskID}")
     @Operation (summary = "Delete sub task by its ID")
     public ResponseEntity<subTaskResponse> deleteSubTask(@PathVariable("subTaskID") Integer subTaskID){
             return subTaskService.deleteSubTask(subTaskID);

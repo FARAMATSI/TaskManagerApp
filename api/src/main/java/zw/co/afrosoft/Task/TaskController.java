@@ -30,30 +30,30 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/createTask")
+    @PostMapping("/task")
     @Operation (summary = "Create a new task")
     public ResponseEntity<Response> createTask(@Valid @RequestBody TaskRequest taskRequest) {
             return taskService.createTask(taskRequest);
     }
 
-    @PutMapping("/updateTaskDeadline/{taskID}")
+    @PutMapping("/task/{taskID}")
     @Operation (summary = "update the task deadline by its ID")
     public ResponseEntity<Response> updateTaskDescription(@PathVariable("taskID") Integer taskID, @RequestParam LocalDate taskDeadline) {
         return taskService.updateTaskDescription(taskID,taskDeadline);
     }
 
-    @GetMapping("/getTask/{taskID}")
+    @GetMapping("/task/{taskID}")
     @Operation (summary = "Retrieves a single task by its ID and its subtasks")
     public ResponseEntity<TaskResponse> getTaskByID(@PathVariable("taskID") Integer taskId) {
         return taskService.getTaskByID(taskId);
     }
-    @GetMapping("/tasks/getAllTasks")
+    @GetMapping("/tasks")
     @Operation (summary = "Retrieves all the tasks and their respective assignee and the subtasks")
     public Page<Task>  getAllTasks(@PageableDefault Pageable pageable){
         return taskService.getAllTasks(pageable);
     }
 
-    @DeleteMapping("/tasks/deleteTask/{taskID}")
+    @DeleteMapping("/tasks/{taskID}")
     @Operation (summary = "Delete a task and its subtasks as well")
     public ResponseEntity<Response> deleteTask(@Valid @PathVariable("taskID") Integer taskID){
         return taskService.deleteTaskByID(taskID);

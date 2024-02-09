@@ -32,36 +32,37 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
- private final TaskRepository taskRepository;
- private final SubTaskRepository subTaskRepository;
-    public ResponseEntity<Response> createTask(TaskRequest taskRequest){
-     try {
-         var task = Task.builder()
-                 .taskName(taskRequest.getTaskName())
-                 .taskDescription(taskRequest.getTaskDescription())
-                 .taskDeadline(taskRequest.getTaskDeadline())
-                 .taskCompletionPercentage(0.0)
-                 .build();
-         var assignee = new Assignee();
-         assignee.setAssigneeID(taskRequest.getAssigneeID());
-         task.setAssignee(assignee);
-         taskRepository.save(task);
-         return ResponseEntity.ok(new Response("success","task created"));
-     }
-     catch (Exception e){
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed","task creation failed"));
+    private final TaskRepository taskRepository;
+    private final SubTaskRepository subTaskRepository;
 
-     }
- }
- @Override
+    public ResponseEntity<Response> createTask(TaskRequest taskRequest) {
+        try {
+            var task = Task.builder()
+                    .taskName(taskRequest.getTaskName())
+                    .taskDescription(taskRequest.getTaskDescription())
+                    .taskDeadline(taskRequest.getTaskDeadline())
+                    .taskCompletionPercentage(0.0)
+                    .build();
+            var assignee = new Assignee();
+            assignee.setAssigneeID(taskRequest.getAssigneeID());
+            task.setAssignee(assignee);
+            taskRepository.save(task);
+            return ResponseEntity.ok(new Response("success", "task created"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed", "task creation failed"));
+
+        }
+    }
+
+    @Override
     public ResponseEntity<Response> updateTaskDescription(Integer taskID, LocalDate taskDeadline) {
-            Optional<Task> existingTask = taskRepository.findById(taskID);
-            if(existingTask.isEmpty()){
-                throw new TaskNotFoundException("Task Not found in the Database");
-            }
-            existingTask.get().setTaskDeadline(taskDeadline);
-            taskRepository.save(existingTask.get());
-            return ResponseEntity.ok(new Response("success","taskDeadline edited"));
+        Optional<Task> existingTask = taskRepository.findById(taskID);
+        if (existingTask.isEmpty()) {
+            throw new TaskNotFoundException("Task Not found in the Database");
+        }
+        existingTask.get().setTaskDeadline(taskDeadline);
+        taskRepository.save(existingTask.get());
+        return ResponseEntity.ok(new Response("success", "taskDeadline edited"));
     }
 
     @Override
@@ -79,6 +80,10 @@ public class TaskServiceImpl implements TaskService {
                         .build();
                 return ResponseEntity.ok(response);
     }
+
+
+
+
     public ResponseEntity<TasksResponse> getTaskByAssigneeName(String name){
         List<Task> allTasks =  taskRepository.getTasksByAssignee_Name(name);
         if(allTasks.isEmpty()){
