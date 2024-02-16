@@ -6,19 +6,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import zw.co.afrosoft.Requests.Task.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
-import zw.co.afrosoft.Responses.tasks.TaskResponse;
-import zw.co.afrosoft.Responses.tasks.TasksResponse;
 import zw.co.afrosoft.Repositories.SubTask.SubTaskRepository;
 import zw.co.afrosoft.Repositories.Task.TaskRepository;
-import zw.co.afrosoft.exceptions.Task.NoTaskToDisplayException;
 import zw.co.afrosoft.exceptions.Task.TaskNotFoundException;
 import zw.co.afrosoft.entities.Assignee.Assignee;
 import zw.co.afrosoft.entities.subTask.SubTask;
@@ -35,8 +30,8 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final SubTaskRepository subTaskRepository;
 
-    public ResponseEntity<Response> createTask(TaskRequest taskRequest) {
-        try {
+    public Task createTask(TaskRequest taskRequest) {
+
             var task = Task.builder()
                     .taskName(taskRequest.getTaskName())
                     .taskDescription(taskRequest.getTaskDescription())
@@ -47,53 +42,60 @@ public class TaskServiceImpl implements TaskService {
             assignee.setAssigneeID(taskRequest.getAssigneeID());
             task.setAssignee(assignee);
             taskRepository.save(task);
-            return ResponseEntity.ok(new Response("success", "task created"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("failed", "task creation failed"));
+            return task;
 
-        }
+
+
     }
 
     @Override
-    public ResponseEntity<Response> updateTaskDescription(Integer taskID, LocalDate taskDeadline) {
+    public Task updateTaskDescription(Integer taskID, LocalDate taskDeadline) {
         Optional<Task> existingTask = taskRepository.findById(taskID);
         if (existingTask.isEmpty()) {
             throw new TaskNotFoundException("Task Not found in the Database");
         }
         existingTask.get().setTaskDeadline(taskDeadline);
-        taskRepository.save(existingTask.get());
-        return ResponseEntity.ok(new Response("success", "taskDeadline edited"));
+        Task task = taskRepository.save(existingTask.get());
+        return task ;
     }
 
     @Override
-    public ResponseEntity<TaskResponse> getTaskByID(Integer taskId) {
+    public Task getTaskByID(Integer taskId) {
      Optional<Task> existingTask = taskRepository.findById(taskId);
                 if(existingTask.isEmpty()){
                     throw new TaskNotFoundException("Task Not found in the Database");
                 }
         List<SubTask> subTasks = subTaskRepository.findByTaskId(taskId);
 
-        TaskResponse response = TaskResponse.builder()
+        Task task = Task.builder()
                         .taskName(existingTask.get().getTaskName())
                         .subTaskList(subTasks)
-                        .completionPercentage(existingTask.get().getTaskCompletionPercentage())
+                        .taskCompletionPercentage(existingTask.get().getTaskCompletionPercentage())
                         .build();
-                return ResponseEntity.ok(response);
+                return task;
     }
 
 
 
 
-    public ResponseEntity<TasksResponse> getTaskByAssigneeName(String name){
-        List<Task> allTasks =  taskRepository.getTasksByAssignee_Name(name);
-        if(allTasks.isEmpty()){
-            throw new NoTaskToDisplayException("No tasks to Display");
-        }
-        TasksResponse tasksResponse = TasksResponse.builder()
-                .status("success")
-                .allTasks(allTasks)
-                .build();
-        return ResponseEntity.ok(tasksResponse);
+//    public Task getTaskByAssigneeName(String name){
+//        List<Task> allTasks =  taskRepository.getTasksByAssignee_Name(name);
+//        if(allTasks.isEmpty()){
+//            throw new NoTaskToDisplayException("No tasks to Display");
+//        }
+//        TasksResponse tasksResponse = TasksResponse.builder()
+//                .status("success")
+//                .allTasks(allTasks)
+//                .build();
+//        return ResponseEntity.ok(tasksResponse);
+
+//    }public Page<Task> getAllTasks(Pageable pageable){
+//            return   taskRepository.findAll(pageable);
+
+
+    @Override
+    public Page<Task> getTaskByAssigneeName(Pageable pageable) {  //possible logic error
+        return taskRepository.findAll(pageable);
     }
 
     @Override
@@ -133,7 +135,7 @@ public class TaskServiceImpl implements TaskService {
     private EntityManager entityManager;
     @Transactional
     @Override
-    public ResponseEntity<Response> deleteTaskByID(Integer taskID){
+    public void deleteTaskByID(Integer taskID){
 
         Optional<Task> existingTask = taskRepository.findById(taskID);
 
@@ -145,6 +147,6 @@ public class TaskServiceImpl implements TaskService {
 
             //Now deleting the task
             taskRepository.deleteById(taskID);
-        return ResponseEntity.ok(new Response("success","task deleted"));
+
     }
 }

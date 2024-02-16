@@ -12,11 +12,14 @@ import zw.co.afrosoft.entities.Task.Task;
 import java.time.LocalDate;
 
 public interface TaskService {
-    ResponseEntity<Response> createTask(TaskRequest taskRequest);
-    ResponseEntity<Response> updateTaskDescription(Integer taskID, LocalDate deadline);
-    ResponseEntity<TaskResponse> getTaskByID(Integer taskID);
+    Task createTask(TaskRequest taskRequest);
+    Task updateTaskDescription(Integer taskID, LocalDate deadline);
+    Task getTaskByID(Integer taskID);
     Page<Task> getAllTasks(Pageable pageable);
-    ResponseEntity<Response> deleteTaskByID(Integer taskID);
+    void deleteTaskByID(Integer taskID);
+
+    Page<Task> getTaskByAssigneeName(Pageable pageable);
+
     void calculateTaskCompletionPercentage(Integer taskID);
-    ResponseEntity<TasksResponse> getTaskByAssigneeName(String name);
+
 }

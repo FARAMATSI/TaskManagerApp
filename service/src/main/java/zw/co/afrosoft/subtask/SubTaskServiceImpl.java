@@ -20,8 +20,8 @@ public class SubTaskServiceImpl implements SubTaskService {
     private final TaskService taskService;
 
     @Override
-    public ResponseEntity<subTaskResponse> createSubTask(SubTaskRequest subTaskRequest){
-        try {
+    public SubTask createSubTask(SubTaskRequest subTaskRequest){
+
             SubTask subTask = SubTask.builder()
                     .subTaskName(subTaskRequest.getSubTaskName())
                     .isSubTaskCompleted(Boolean.FALSE)
@@ -30,31 +30,28 @@ public class SubTaskServiceImpl implements SubTaskService {
             task.setId(subTaskRequest.getTaskID());
             subTask.setTask(task);
             subTaskRepository.save(subTask);
-            return ResponseEntity.status(HttpStatus.OK).body(new subTaskResponse("success","subTask created"));
-        }
-        catch (Exception e){
+            return subTask;
+       // return ResponseEntity.ok().body(assign)
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new subTaskResponse("failed","error creating task "+e.getMessage()));
-        }
     }
     @Override
-    public ResponseEntity<subTaskResponse> completeSubTask(Integer subTaskID){
+    public SubTask completeSubTask(Integer subTaskID){
             Optional<SubTask> existingSubTask = subTaskRepository.findById(subTaskID);
             if(existingSubTask.isEmpty()){
                 throw new SubTaskNotFoundException("SubTask not found in the Database");
             }
             existingSubTask.get().setIsSubTaskCompleted(true);
             taskService.calculateTaskCompletionPercentage(existingSubTask.get().getTask().getId());
-            subTaskRepository.save(existingSubTask.get());
-            return ResponseEntity.status(HttpStatus.OK).body(new subTaskResponse("success","subTask completed"));
+           SubTask subTask = subTaskRepository.save(existingSubTask.get());
+            return subTask; // revisit
         }
         @Override
-        public ResponseEntity<subTaskResponse> deleteSubTask(Integer subTaskID){
+        public void deleteSubTask(Integer subTaskID){
             Optional<SubTask> existingSubTask = subTaskRepository.findById(subTaskID);
             if(existingSubTask.isEmpty()){//isPresent
                 throw new SubTaskNotFoundException("SubTask not found in the Database");
             }
-            subTaskRepository.delete(existingSubTask.get());
-            return ResponseEntity.status(HttpStatus.OK).body(new subTaskResponse("success","subTask deleted"));
+              subTaskRepository.delete(existingSubTask.get());
+
         }
     }

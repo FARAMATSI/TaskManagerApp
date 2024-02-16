@@ -23,17 +23,20 @@ public class SubTaskController {
     @PostMapping("")
     @Operation (summary = "Create a new SubTask")
     public ResponseEntity<subTaskResponse> createSubTask(@Valid @RequestBody SubTaskRequest subTaskRequest){
-            return subTaskService.createSubTask(subTaskRequest);
+            subTaskService.createSubTask(subTaskRequest);
+            return ResponseEntity.ok().body(new subTaskResponse("success", "Successfully created"));
     }
     
     @PutMapping("{subtaskID}")
     @Operation (summary = "Complete sub task by its ID")
-    public ResponseEntity<subTaskResponse> completeSubTask(@PathVariable("subTaskID") Integer subTaskID){
-            return subTaskService.completeSubTask(subTaskID);
+    public ResponseEntity<subTaskResponse> completeSubTask(@PathVariable("subTaskID") Integer subTaskID, @PathVariable String subtaskID){
+             subTaskService.completeSubTask(subTaskID);
+             return ResponseEntity.ok().body(new subTaskResponse("success","subtask has been completed"));
     }
     @DeleteMapping("/{subtaskID}")
     @Operation (summary = "Delete sub task by its ID")
-    public ResponseEntity<subTaskResponse> deleteSubTask(@PathVariable("subTaskID") Integer subTaskID){
-            return subTaskService.deleteSubTask(subTaskID);
+    public ResponseEntity<subTaskResponse> deleteSubTask(@PathVariable("subTaskID") Integer subTaskID, @PathVariable String subtaskID){
+            subTaskService.deleteSubTask(subTaskID);
+            return ResponseEntity.ok().body(new subTaskResponse("success","Subtask deleted successfully"));
     }
 }

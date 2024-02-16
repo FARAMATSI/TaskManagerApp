@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import zw.co.afrosoft.Requests.Task.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Responses.tasks.TaskResponse;
-import zw.co.afrosoft.Responses.tasks.TasksResponse;
 
 import zw.co.afrosoft.entities.Task.Task;
+import zw.co.afrosoft.entities.subTask.SubTask;
 import zw.co.afrosoft.task.TaskService;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @RestController
@@ -33,19 +34,25 @@ public class TaskController {
     @PostMapping("")
     @Operation (summary = "Create a new task")
     public ResponseEntity<Response> createTask(@Valid @RequestBody TaskRequest taskRequest) {
-            return taskService.createTask(taskRequest);
+         taskService.createTask(taskRequest);
+           return ResponseEntity.ok(new Response("success","Task created successfully"));
     }
 
     @PutMapping("/{taskID}")
     @Operation (summary = "update the task deadline by its ID")
     public ResponseEntity<Response> updateTaskDescription(@PathVariable("taskID") Integer taskID, @RequestParam LocalDate taskDeadline) {
-        return taskService.updateTaskDescription(taskID,taskDeadline);
+        taskService.updateTaskDescription(taskID,taskDeadline);
+        return ResponseEntity.ok(new Response("success","Task updated successfully"));
     }
 
     @GetMapping("/{taskID}")
     @Operation (summary = "Retrieves a single task by its ID and its subtasks")
     public ResponseEntity<TaskResponse> getTaskByID(@PathVariable("taskID") Integer taskId) {
-        return taskService.getTaskByID(taskId);
+        var task = taskService.getTaskByID(taskId);
+        var taskName = task.getTaskName();
+        var completionLevel = task.getTaskCompletionPercentage();
+        List<SubTask> subTasks = task.getSubTaskList();
+        return ResponseEntity.ok().body(new TaskResponse(taskName,subTasks,completionLevel));
     }
     @GetMapping("")
     @Operation (summary = "Retrieves all the tasks and their respective assignee and the subtasks")
@@ -56,6 +63,7 @@ public class TaskController {
     @DeleteMapping("{taskID}")
     @Operation (summary = "Delete a task and its subtasks as well")
     public ResponseEntity<Response> deleteTask(@Valid @PathVariable("taskID") Integer taskID){
-        return taskService.deleteTaskByID(taskID);
+         taskService.deleteTaskByID(taskID);
+         return ResponseEntity.ok().body(new Response("success","Task has been successfully deleted"));
     }
 }

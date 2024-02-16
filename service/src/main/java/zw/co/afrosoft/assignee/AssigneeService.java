@@ -1,14 +1,14 @@
 package zw.co.afrosoft.assignee;
 
-import org.springframework.http.ResponseEntity;
 import zw.co.afrosoft.Requests.Assignee.AssigneeRequest;
 
-import zw.co.afrosoft.Responses.assignee.AssigneeResponse;
+
+import zw.co.afrosoft.entities.Assignee.Assignee;
+
 
 
 public interface AssigneeService {
-    ResponseEntity<AssigneeResponse> createAssignee(AssigneeRequest assigneeRequest);
+    Assignee createAssignee(AssigneeRequest assigneeRequest);
 
-
-    ResponseEntity<AssigneeResponse> deleteAssignee(Integer assigneeID);
+    void deleteAssignee(Integer assigneeID);
 }
