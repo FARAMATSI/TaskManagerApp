@@ -12,7 +12,7 @@ import zw.co.afrosoft.Responses.assignee.AssigneeResponse;
 import zw.co.afrosoft.Requests.Assignee.AssigneeRequest;
 import zw.co.afrosoft.assignee.AssigneeService;
 import zw.co.afrosoft.entities.Task.Task;
-import zw.co.afrosoft.exceptions.Task.TaskNotFoundException;
+
 import zw.co.afrosoft.task.TaskService;
 import zw.co.afrosoft.exceptions.Assignee.AssigneeNotFoundException;
 
@@ -38,10 +38,10 @@ public class AssigneeController {
     }
 
 
-    @GetMapping("/{name}")
+    @GetMapping("/{Assigneename}")
     @Operation(summary = "provides a list of all the tasks and subtasks assigned to te specified assignee")
-    public Page<Task> getTaskByAssigneeName(@PageableDefault Pageable pageable)throws TaskNotFoundException{
-        return taskService.getTaskByAssigneeName(pageable);
+    public Page<Task> getTaskByAssigneeName(@PageableDefault Pageable pageable, @PathVariable("name") String AssigneeName){
+        return taskService.getTaskByAssigneeName(pageable, AssigneeName);
 
     }
 

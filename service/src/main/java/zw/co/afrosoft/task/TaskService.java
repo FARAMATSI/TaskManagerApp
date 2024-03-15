@@ -18,7 +18,7 @@ public interface TaskService {
     Page<Task> getAllTasks(Pageable pageable);
     void deleteTaskByID(Integer taskID);
 
-    Page<Task> getTaskByAssigneeName(Pageable pageable);
+    Page<Task> getTaskByAssigneeName(Pageable pageable, String AssigneeName);
 
     void calculateTaskCompletionPercentage(Integer taskID);
 

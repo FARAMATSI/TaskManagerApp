@@ -8,5 +8,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  security:
+      user:
+        name: admin
+        password: adminAccess
 server:
   port: 9005
+
+

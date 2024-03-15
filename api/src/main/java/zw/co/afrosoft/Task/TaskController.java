@@ -56,7 +56,7 @@ public class TaskController {
     }
     @GetMapping("")
     @Operation (summary = "Retrieves all the tasks and their respective assignee and the subtasks")
-    public Page<Task>  getAllTasks(@PageableDefault Pageable pageable){
+    public Page<Task>  getAllTasks(@PageableDefault Pageable pageable,Integer assigneeID){
         return taskService.getAllTasks(pageable);
     }
 

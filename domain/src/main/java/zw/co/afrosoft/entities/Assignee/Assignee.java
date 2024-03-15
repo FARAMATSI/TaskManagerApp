@@ -17,7 +17,7 @@ public class Assignee {
    private Integer assigneeID;
 
 
-    private String name;
+    private String AssigneeName;
 
     private String profession;
     private String department;

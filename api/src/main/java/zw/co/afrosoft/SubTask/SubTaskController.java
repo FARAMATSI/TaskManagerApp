@@ -27,15 +27,15 @@ public class SubTaskController {
             return ResponseEntity.ok().body(new subTaskResponse("success", "Successfully created"));
     }
     
-    @PutMapping("{subtaskID}")
+    @PutMapping("/{subtaskID}")
     @Operation (summary = "Complete sub task by its ID")
-    public ResponseEntity<subTaskResponse> completeSubTask(@PathVariable("subTaskID") Integer subTaskID, @PathVariable String subtaskID){
+    public ResponseEntity<subTaskResponse> completeSubTask(@PathVariable("subtaskID") Integer subTaskID){
              subTaskService.completeSubTask(subTaskID);
              return ResponseEntity.ok().body(new subTaskResponse("success","subtask has been completed"));
     }
     @DeleteMapping("/{subtaskID}")
     @Operation (summary = "Delete sub task by its ID")
-    public ResponseEntity<subTaskResponse> deleteSubTask(@PathVariable("subTaskID") Integer subTaskID, @PathVariable String subtaskID){
+    public ResponseEntity<subTaskResponse> deleteSubTask(@PathVariable("subtaskID") Integer subTaskID){
             subTaskService.deleteSubTask(subTaskID);
             return ResponseEntity.ok().body(new subTaskResponse("success","Subtask deleted successfully"));
     }

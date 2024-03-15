@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 //@Nullable
 public interface TaskRepository extends JpaRepository<Task, Integer> {
-    List<Task> getTasksByAssignee_Name(String name);
+  //  List<Task> getTaskByAssigneeName(String AssigneeName);
 
 
     void deleteById(@NonNull Integer assigneeId);

@@ -14,13 +14,13 @@ import zw.co.afrosoft.entities.Task.Task;
 import zw.co.afrosoft.exceptions.Assignee.AssigneeNotFoundException;
 import zw.co.afrosoft.entities.Assignee.Assignee;
 import java.util.Optional;
-import java.util.logging.Logger;
+
 
 @Service
 @RequiredArgsConstructor
 public class AssigneeServiceImpl implements AssigneeService {
 
-    private static final Logger LOGGER = Logger.getLogger(AssigneeServiceImpl.class.getName());
+
     private final AssigneeRepository assigneeRepository;
     private final SubTaskRepository subTaskRepository;
     private final TaskRepository taskRepository;
@@ -29,7 +29,7 @@ public class AssigneeServiceImpl implements AssigneeService {
     public Assignee createAssignee(AssigneeRequest assigneeRequest) {
 
             var assignee = Assignee.builder()
-                    .name(assigneeRequest.getName())
+                    .AssigneeName(assigneeRequest.getName())
                     .department(assigneeRequest.getDepartment())
                     .profession(assigneeRequest.getProfession())
                     .build();
@@ -39,15 +39,6 @@ public class AssigneeServiceImpl implements AssigneeService {
     }
 
 
-//    @Override
-//    public ResponseEntity<Assignee> createAssignee(AssigneeRequest assigneeRequest) {
-//            var assignee = Assignee.builder()
-//                    .name(assigneeRequest.getName())
-//                    .build();
-//            Assignee assign = assigneeRepository.save(assignee);
-//            return ResponseEntity.ok().body(assign);
-//
-//    }
 
     @PersistenceContext
     private EntityManager entityManager;

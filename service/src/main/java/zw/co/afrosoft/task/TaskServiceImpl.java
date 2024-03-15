@@ -75,26 +75,7 @@ public class TaskServiceImpl implements TaskService {
                 return task;
     }
 
-
-
-
-//    public Task getTaskByAssigneeName(String name){
-//        List<Task> allTasks =  taskRepository.getTasksByAssignee_Name(name);
-//        if(allTasks.isEmpty()){
-//            throw new NoTaskToDisplayException("No tasks to Display");
-//        }
-//        TasksResponse tasksResponse = TasksResponse.builder()
-//                .status("success")
-//                .allTasks(allTasks)
-//                .build();
-//        return ResponseEntity.ok(tasksResponse);
-
-//    }public Page<Task> getAllTasks(Pageable pageable){
-//            return   taskRepository.findAll(pageable);
-
-
-    @Override
-    public Page<Task> getTaskByAssigneeName(Pageable pageable) {  //possible logic error
+    public Page<Task> getTaskByAssigneeName(Pageable pageable,String AssigneeName ) {  //possible logic error
         return taskRepository.findAll(pageable);
     }
 
