@@ -2,12 +2,14 @@ package zw.co.afrosoft.utilities;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class JwtUtil {
-    private static final String SECRET ="your-secret-key";
-    private static final long EXP_TIME =864 * 1000;
+    private static final SecretKey SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS512);;
+    private static final long EXP_TIME =864000;
 
     public static String generateToken(String username){
         return Jwts.builder()

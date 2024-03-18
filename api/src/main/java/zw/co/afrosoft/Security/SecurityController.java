@@ -16,6 +16,7 @@ public class SecurityController {
   public ResponseEntity login(@RequestBody LoginRequest request) {                   //TODO add a return statement
   if (request.getUsername().equals("admin") && request.getPassword().equals("1")) {
     String token = JwtUtil.generateToken(request.getUsername());
+    System.out.println(token);
     return ResponseEntity.ok(new JwtResponse(token));
   }
   return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");

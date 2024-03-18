@@ -22,7 +22,6 @@ public class SubTask {
 
     @ManyToOne
     @JsonIgnore
-
     private Task task;
 
 
