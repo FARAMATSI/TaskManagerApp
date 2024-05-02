@@ -30,7 +30,7 @@ public class AssigneeController {
         this.taskService = taskService;
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     @Operation(summary ="Create a new Assignee")
     public ResponseEntity<AssigneeResponse> createAssignee(@RequestBody AssigneeRequest assigneeRequest){
              assigneeService.createAssignee(assigneeRequest);

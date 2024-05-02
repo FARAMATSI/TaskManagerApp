@@ -3,6 +3,7 @@ package zw.co.afrosoft.utilities;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -17,5 +18,26 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + EXP_TIME))
                 .signWith(SignatureAlgorithm.HS512,SECRET)
                 .compact();
+    }
+    public static String extractUsername(String token){
+        return Jwts.                  parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+    public static boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token);
+            return true;
+        } catch (SignatureException e) {
+            System.out.println("Signature Exception");
+            {
+                System.out.println("Expired token exception");
+            }
+            return false;
+        }
     }
 }

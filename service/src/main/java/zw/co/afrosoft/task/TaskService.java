@@ -19,7 +19,7 @@ public interface TaskService {
     void deleteTaskByID(Integer taskID);
 
     Page<Task> getTaskByAssigneeName(Pageable pageable, String AssigneeName);
-
+    Page<Task> getTaskBySupervisorName(Pageable pageable, String SupervisorName);
     void calculateTaskCompletionPercentage(Integer taskID);
 
 }

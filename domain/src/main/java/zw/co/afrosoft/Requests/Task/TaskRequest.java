@@ -22,4 +22,12 @@ public class TaskRequest {
     @JsonProperty("AssigneeID")
     private Integer assigneeID;
 
+    @JsonProperty("AssigneeName")
+    private String AssigneeName;
+
+    @JsonProperty("SupervisorID")
+    private String supervisorName;
+
+    @JsonProperty("ProjectID")
+    private Integer projectID;
 }

@@ -14,6 +14,7 @@ import zw.co.afrosoft.Requests.Task.TaskRequest;
 import zw.co.afrosoft.Responses.Response;
 import zw.co.afrosoft.Repositories.SubTask.SubTaskRepository;
 import zw.co.afrosoft.Repositories.Task.TaskRepository;
+
 import zw.co.afrosoft.exceptions.Task.TaskNotFoundException;
 import zw.co.afrosoft.entities.Assignee.Assignee;
 import zw.co.afrosoft.entities.subTask.SubTask;
@@ -30,6 +31,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final SubTaskRepository subTaskRepository;
 
+
     public Task createTask(TaskRequest taskRequest) {
 
             var task = Task.builder()
@@ -41,10 +43,27 @@ public class TaskServiceImpl implements TaskService {
             var assignee = new Assignee();
             assignee.setAssigneeID(taskRequest.getAssigneeID());
             task.setAssignee(assignee);
+
             taskRepository.save(task);
             return task;
 
 
+
+    }
+    public Task createProjectTask(TaskRequest taskRequest) {
+        var task = Task.builder()
+                .taskName(taskRequest.getTaskName())
+                //.AssigneeName(assigneeRequest.getAssigneeName())
+                .taskDescription(taskRequest.getTaskDescription())
+                .taskDeadline(taskRequest.getTaskDeadline())
+                .build();
+        //TODO input statement that allows the supervisor to add the assignee
+        var assignee = new Assignee();
+        assignee.setAssigneeName(taskRequest.getAssigneeName());
+        task.setAssignee(assignee);
+
+        taskRepository.save(task);
+        return task;
 
     }
 
@@ -78,6 +97,10 @@ public class TaskServiceImpl implements TaskService {
     public Page<Task> getTaskByAssigneeName(Pageable pageable,String AssigneeName ) {  //possible logic error
         return taskRepository.findAll(pageable);
     }
+    public Page<Task> getTaskBySupervisorName(Pageable pageable,String SupervisorName){
+        return taskRepository.findAll(pageable);
+    }
+
 
     @Override
     public void calculateTaskCompletionPercentage(Integer taskID){

@@ -2,6 +2,7 @@ package zw.co.afrosoft.entities.Assignee;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import zw.co.afrosoft.entities.Task.Task;
 
 import java.util.List;
@@ -18,11 +19,13 @@ public class Assignee {
 
 
     private String AssigneeName;
-
+    private String password;
     private String profession;
     private String department;
 
   //  @JsonManagedReference
     @OneToMany(mappedBy = "assignee")
     private List<Task> tasks;
+
+
 }

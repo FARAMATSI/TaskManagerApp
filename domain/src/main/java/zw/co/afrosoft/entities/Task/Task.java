@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import zw.co.afrosoft.entities.Assignee.Assignee;
+
 import zw.co.afrosoft.entities.subTask.SubTask;
 
 
@@ -43,5 +44,5 @@ public class Task {
     private LocalDate taskDeadline;
 
     private String randomChar;
-
 }
+
